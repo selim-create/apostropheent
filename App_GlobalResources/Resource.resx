@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="about_icerik" xml:space="preserve">
+    <value>Apostrophe Entertainment is a marketing communications agency for companies in the global entertainment &amp; media industry. Our team consists of experts, specifically professionals from the international entertainment content business. With teams in London, Paris and Istanbul; we offer our clients a wide range of integrated marketing communication services, also strategic consultancy, to help their companies prosper, grow and be known in the best possible way worldwide.</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Apostrophe Email</value>
+  </data>
+  <data name="en_secim" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="fields_1" xml:space="preserve">
+    <value>TV</value>
+  </data>
+  <data name="fields_2" xml:space="preserve">
+    <value>Digital Platforms</value>
+  </data>
+  <data name="fields_3" xml:space="preserve">
+    <value>Cinema</value>
+  </data>
+  <data name="fields_4" xml:space="preserve">
+    <value>Film Festivals</value>
+  </data>
+  <data name="fields_5" xml:space="preserve">
+    <value>Content Markets</value>
+  </data>
+  <data name="fields_6" xml:space="preserve">
+    <value>Trade Shows &amp; Awards</value>
+  </data>
+  <data name="fields_7" xml:space="preserve">
+    <value>Red Carpet Ceremonies</value>
+  </data>
+  <data name="footer_adres" xml:space="preserve">
+    <value>Addresses</value>
+  </data>
+  <data name="footer_copy" xml:space="preserve">
+    <value>Copyright © 2023 Apostrophe Entertainment All rights reserved.</value>
+  </data>
+  <data name="footer_kisa" xml:space="preserve">
+    <value>Apostrophe Entertainment is a marketing communications agency for companies in the global entertainment &amp; media industry.</value>
+  </data>
+  <data name="fr_secim" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="geri" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="ileri" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="instagram" xml:space="preserve">
+    <value>Apostrophe Instagram</value>
+  </data>
+  <data name="linkedin" xml:space="preserve">
+    <value>Apostrophe Linkedin</value>
+  </data>
+  <data name="logo_title" xml:space="preserve">
+    <value>Apostrophe Entertainment</value>
+  </data>
+  <data name="menu_1" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="menu_2" xml:space="preserve">
+    <value>About Us</value>
+  </data>
+  <data name="menu_3" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="menu_4" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="menu_5" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="meta_desc" xml:space="preserve">
+    <value>Apostrophe Entertainment is a marketing communications agency for companies in the global entertainment &amp; media industry.</value>
+  </data>
+  <data name="meta_title" xml:space="preserve">
+    <value>Apostrophe Entertainment Marketing Communications Agency</value>
+  </data>
+  <data name="servis_baslik_1" xml:space="preserve">
+    <value>Strategic Communications &amp; PR</value>
+  </data>
+  <data name="servis_baslik_2" xml:space="preserve">
+    <value>Digital Marketing</value>
+  </data>
+  <data name="servis_baslik_3" xml:space="preserve">
+    <value>B2B Event Marketing &amp; Management</value>
+  </data>
+  <data name="servis_baslik_4" xml:space="preserve">
+    <value>360° Creative Marketing Services</value>
+  </data>
+  <data name="servis_baslik_5" xml:space="preserve">
+    <value>Strategic Consultancy</value>
+  </data>
+  <data name="servis_icerik_1" xml:space="preserve">
+    <value>As Apostrophe Entertainment, we help our clients to set their goals, analyze their audience, create the key messages and strategies. We believe that a smart Strategic Communication Plan is imperative for any businesses and we start from establishing such plans for our clients as a roadmap for success. Accordingly, we create PR plans and PR campaigns that works well with our clients’ strategies and marketing purposes.</value>
+  </data>
+  <data name="servis_icerik_2" xml:space="preserve">
+    <value>At Apostrophe Entertainment; SEO, Paid Media, Social Media Management, E-mail Marketing are some of the key tactics which we use for establishing integrated marketing communication plans. We implement and manage innovative strategies to market our client’s products and services in the entertainment content business to increase their sales and revenue.</value>
+  </data>
+  <data name="servis_icerik_3" xml:space="preserve">
+    <value>At Apostrophe Entertainment, we design events from the scratch and consult our clients about event marketing and management, specifically for major content markets and festivals. From arranging the company’s attendance to a panel - seminar - conference to private and public content screenings, from organizing special company events as cocktails, private parties, VIP dinners to press &amp; media events and red carpet ceremonies, we provide an extended B2B event management to our clients for them to reach their desired business outcomes.</value>
+  </data>
+  <data name="servis_icerik_4" xml:space="preserve">
+    <value>We offer our clients an extended creative marketing services which we focus on creating disruptive ideas and building strategies to maximize their marketing impact. Ingenious Content Creation and Concept Design, Advertising, Branding &amp; Design, Photography &amp; Video Production, Social Media Content Production are the services at our agency’s core to  help our clients to stand out.</value>
+  </data>
+  <data name="servis_icerik_5" xml:space="preserve">
+    <value>Apostrophe Entertainment also provides consultancy for selected clients about content sales &amp; acquisitions, content distribution, co-productions and partnerships, industry trends, and major global entertainment content markets. Having longstanding relationships, a worldwide network and know-how in the field, we are happy to help to the small and medium-sized businesses’ needs in the international entertainment content business.</value>
+  </data>
+  <data name="slider_1" xml:space="preserve">
+    <value>Marketing Communications Agency for Global Entertainment and Media</value>
+  </data>
+  <data name="telefon" xml:space="preserve">
+    <value>Apostrophe Telephone</value>
+  </data>
+</root>
