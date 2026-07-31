@@ -1,0 +1,23 @@
+DirectoryIndex index.php
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block direct access to source/configuration files from the old ASP.NET site.
+    RewriteRule ^(?:App_Code|App_GlobalResources|bin)(?:/|$) - [F,L,NC]
+    RewriteRule (?:^|/)(?:Web\.config|Global\.asax|Default\.cshtml|.*\.(?:cs|cshtml|config|dll|pdb|resx))$ - [F,L,NC]
+
+    # Keep the existing English root and French /fr URL structure.
+    RewriteRule ^fr/?$ index.php?lang=fr [L,QSA]
+    RewriteRule ^$ index.php?lang=en [L,QSA]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+<FilesMatch "\.(?:cs|cshtml|config|dll|pdb|resx)$">
+    Require all denied
+</FilesMatch>
