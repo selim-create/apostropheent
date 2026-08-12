@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
-import { works, type SiteLanguage } from '@/lib/site-v2-content';
+import { getApiWork } from '@/lib/apostrophe-api';
+import type { SiteLanguage } from '@/lib/site-v2-content';
 import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
 
-export default function V2WorkListing({ lang }: { lang: SiteLanguage }) {
+export default async function V2WorkListing({ lang }: { lang: SiteLanguage }) {
   const ui = v2Ui[lang];
   const basePath = workBasePath(lang);
+  const works = await getApiWork(lang);
 
   return (
     <main className="v2-page v2-page-work">
@@ -23,10 +25,16 @@ export default function V2WorkListing({ lang }: { lang: SiteLanguage }) {
       </section>
       <section className="v2-work-grid" aria-label={ui.workEyebrow}>
         {works.map((work, index) => (
-          <Link key={work.slug} href={`${basePath}/${work.slug}`} className={`v2-work-card accent-${work.accent}`}>
-            <div className="v2-work-media" aria-hidden="true">
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <div className="v2-work-shape" />
+          <Link key={work.id} href={`${basePath}/${work.slug}`} className={`v2-work-card accent-${work.accent}`}>
+            <div className="v2-work-media">
+              {work.thumbnail ? (
+                <img src={work.thumbnail.url} alt={work.thumbnail.alt || work.title} />
+              ) : (
+                <>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <div className="v2-work-shape" aria-hidden="true" />
+                </>
+              )}
             </div>
             <div className="v2-work-copy">
               <p className="v2-work-service">{localizeService(work.service, lang)}</p>
