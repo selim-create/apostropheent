@@ -1,93 +1,96 @@
-.apostrophe-shared-header {
-  top: 0;
-  z-index: 1200;
+#header.apostrophe-shared-header {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  z-index: 1200 !important;
   width: 100%;
+  transform: none !important;
 }
 
-.apostrophe-shared-header.apostrophe-inner-header {
-  position: sticky;
-  background: #fffaf2;
-  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
-}
-
-.apostrophe-shared-header.apostrophe-inner-header .header-body {
-  background: #fffaf2 !important;
-}
-
-.apostrophe-shared-header.apostrophe-home-header {
-  position: absolute;
-  left: 0;
-  right: 0;
-  background: transparent;
-  border-bottom: 0;
-}
-
-.apostrophe-shared-header.apostrophe-home-header .header-body {
-  background: transparent !important;
-}
-
-.apostrophe-shared-header.apostrophe-home-header.is-scrolled {
-  position: fixed;
-  background: #fffaf2;
-  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
-}
-
-.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body {
-  background: #fffaf2 !important;
-}
-
-.apostrophe-shared-header .header-body {
+#header.apostrophe-shared-header .header-body {
   position: relative !important;
   top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  transition: background-color .22s ease, border-color .22s ease, box-shadow .22s ease;
 }
 
-.apostrophe-shared-header .header-container.container {
+/* Homepage: preserve the original transparent-on-hero appearance. */
+#header.apostrophe-shared-header.apostrophe-home-header {
+  background: transparent !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+#header.apostrophe-shared-header.apostrophe-home-header .header-body {
+  background: transparent !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Once the hero starts moving away, give the fixed header its own readable surface. */
+#header.apostrophe-shared-header.apostrophe-home-header.is-scrolled,
+#header.apostrophe-shared-header.apostrophe-inner-header {
+  background: #fffaf2 !important;
+  border-bottom: 1px solid rgba(17, 17, 17, .14) !important;
+}
+
+#header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body,
+#header.apostrophe-shared-header.apostrophe-inner-header .header-body {
+  background: #fffaf2 !important;
+  border-bottom: 1px solid rgba(17, 17, 17, .08) !important;
+  box-shadow: 0 7px 22px rgba(17, 17, 17, .045) !important;
+}
+
+#header.apostrophe-shared-header .header-container.container {
   width: min(1480px, calc(100% - 48px));
   max-width: 1480px;
 }
 
-.apostrophe-shared-header #mainNav {
+#header.apostrophe-shared-header #mainNav {
   flex-wrap: nowrap;
   align-items: center;
   gap: 0;
 }
 
-.apostrophe-shared-header #mainNav > li {
+#header.apostrophe-shared-header #mainNav > li {
   white-space: nowrap;
 }
 
-.apostrophe-shared-header #mainNav > li > a {
+#header.apostrophe-shared-header #mainNav > li > a {
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
+#header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
   font-size: 12px;
   padding-left: 7px;
   padding-right: 7px;
   letter-spacing: 0;
 }
 
-.apostrophe-shared-header.apostrophe-lang-fr .header-logo {
+#header.apostrophe-shared-header.apostrophe-lang-fr .header-logo {
   margin-right: 12px;
 }
 
-.apostrophe-shared-header.apostrophe-lang-fr .header-logo img {
+#header.apostrophe-shared-header.apostrophe-lang-fr .header-logo img {
   max-width: 190px;
 }
 
 @media (max-width: 1320px) and (min-width: 992px) {
-  .apostrophe-shared-header .header-container.container {
+  #header.apostrophe-shared-header .header-container.container {
     width: calc(100% - 24px);
   }
 
-  .apostrophe-shared-header #mainNav > li > a {
+  #header.apostrophe-shared-header #mainNav > li > a {
     font-size: 12px;
     padding-left: 6px;
     padding-right: 6px;
   }
 
-  .apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
+  #header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
     font-size: 11px;
     padding-left: 5px;
     padding-right: 5px;
@@ -95,11 +98,11 @@
 }
 
 @media (max-width: 1100px) and (min-width: 992px) {
-  .apostrophe-shared-header .header-logo img {
+  #header.apostrophe-shared-header .header-logo img {
     max-width: 170px;
   }
 
-  .apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
+  #header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
     font-size: 10.5px;
     padding-left: 4px;
     padding-right: 4px;
@@ -107,25 +110,27 @@
 }
 
 @media (max-width: 991px) {
-  .apostrophe-shared-header.apostrophe-home-header,
-  .apostrophe-shared-header.apostrophe-home-header.is-scrolled,
-  .apostrophe-shared-header.apostrophe-inner-header {
-    position: sticky;
-    background: #fffaf2;
-    border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+  #header.apostrophe-shared-header,
+  #header.apostrophe-shared-header.apostrophe-home-header,
+  #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled,
+  #header.apostrophe-shared-header.apostrophe-inner-header {
+    position: fixed !important;
+    background: #fffaf2 !important;
+    border-bottom: 1px solid rgba(17, 17, 17, .14) !important;
   }
 
-  .apostrophe-shared-header.apostrophe-home-header .header-body,
-  .apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body,
-  .apostrophe-shared-header.apostrophe-inner-header .header-body {
+  #header.apostrophe-shared-header .header-body,
+  #header.apostrophe-shared-header.apostrophe-home-header .header-body,
+  #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body,
+  #header.apostrophe-shared-header.apostrophe-inner-header .header-body {
     background: #fffaf2 !important;
   }
 
-  .apostrophe-shared-header .header-container.container {
+  #header.apostrophe-shared-header .header-container.container {
     width: calc(100% - 32px);
   }
 
-  .apostrophe-shared-header #mainNav {
+  #header.apostrophe-shared-header #mainNav {
     flex-wrap: wrap;
   }
 }
