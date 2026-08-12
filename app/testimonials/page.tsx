@@ -1,10 +1,11 @@
-import V2Header from '@/components/V2Header';
+import SiteFooter from '@/components/SiteFooter';
+import SiteHeader from '@/components/SiteHeader';
 import { testimonials, testimonialsIntro } from '@/lib/site-v2-content';
 
 export default function TestimonialsPage() {
   return (
     <main className="v2-page v2-page-testimonials">
-      <V2Header active="testimonials" />
+      <SiteHeader active="testimonials" />
       <section className="v2-hero-block v2-testimonials-hero">
         <p className="v2-eyebrow">CLIENT VOICES</p>
         <h1>TESTIMONIALS</h1>
@@ -23,6 +24,7 @@ export default function TestimonialsPage() {
           </article>
         ))}
       </section>
+      <SiteFooter />
     </main>
   );
 }
