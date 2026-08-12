@@ -28,9 +28,9 @@
 }
 
 .v2-work-video {
-  max-width: 1440px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 0 40px 96px;
+  padding: 24px 40px 96px;
 }
 
 .v2-work-video-frame {
@@ -39,6 +39,7 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #111;
+  border: 1px solid rgba(17,17,17,.7);
 }
 
 .v2-work-video-frame iframe,
@@ -50,8 +51,162 @@
 }
 
 .v2-work-video-file {
-  max-height: 820px;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
   background: #111;
+}
+
+/* Work listing: every real image is presented as a controlled editorial thumbnail. */
+.v2-work-card {
+  min-height: 0 !important;
+}
+
+.v2-work-media {
+  min-height: 0 !important;
+  aspect-ratio: 16 / 10;
+  padding: 0 !important;
+  overflow: hidden;
+  background: rgba(255,255,255,.15);
+}
+
+.v2-work-media.has-media {
+  display: block;
+}
+
+.v2-work-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .45s ease;
+}
+
+.v2-work-card:hover .v2-work-media img {
+  transform: scale(1.025);
+}
+
+.v2-work-card:not(:has(.v2-work-media.has-media)) .v2-work-media {
+  padding: 24px !important;
+}
+
+.v2-work-copy {
+  min-height: 245px;
+  display: flex;
+  flex-direction: column;
+}
+
+.v2-work-copy h2 {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.v2-arrow {
+  margin-top: auto !important;
+  padding-top: 28px;
+}
+
+/* Card text remains legible while still respecting the selected accent. */
+.v2-work-card.accent-pink,
+.v2-work-card.accent-orange,
+.v2-work-card.accent-blue,
+.v2-work-card.accent-cream {
+  color: #111;
+}
+
+.v2-work-card.accent-red {
+  color: #fffaf2;
+}
+
+.v2-work-card.accent-red .v2-work-media,
+.v2-work-card.accent-red .v2-work-copy {
+  border-color: rgba(255,250,242,.72);
+}
+
+/* Detail pages use the selected accent as typography, never as the full-page background. */
+.v2-work-detail.accent-pink { --work-accent: #c74f70; --work-accent-ink: #111; }
+.v2-work-detail.accent-orange { --work-accent: #d97706; --work-accent-ink: #111; }
+.v2-work-detail.accent-blue { --work-accent: #008da3; --work-accent-ink: #111; }
+.v2-work-detail.accent-cream { --work-accent: #7b6750; --work-accent-ink: #111; }
+.v2-work-detail.accent-red { --work-accent: #d9362b; --work-accent-ink: #111; }
+
+.v2-work-detail {
+  background: #f5efe4 !important;
+  color: #111 !important;
+}
+
+.v2-work-detail .v2-detail-hero,
+.v2-work-detail .v2-detail-content,
+.v2-work-detail .v2-gallery-placeholder,
+.v2-work-detail .v2-work-video,
+.v2-work-detail .v2-next-work {
+  color: #111;
+}
+
+.v2-work-detail .v2-detail-hero .v2-eyebrow,
+.v2-work-detail .v2-detail-hero h1,
+.v2-work-detail .v2-detail-year,
+.v2-work-detail .v2-detail-lead p,
+.v2-work-detail .v2-external-link,
+.v2-work-detail .v2-next-work a {
+  color: var(--work-accent) !important;
+}
+
+.v2-work-detail .v2-back {
+  color: #111 !important;
+}
+
+.v2-work-detail .v2-external-link {
+  border-color: var(--work-accent) !important;
+}
+
+.v2-work-detail .v2-detail-hero,
+.v2-work-detail .v2-detail-content {
+  border-color: color-mix(in srgb, var(--work-accent) 60%, #111 40%);
+}
+
+/* Hero media: fixed frame, no intrinsic-size layout shifts. */
+.v2-detail-art.v2-detail-art-media {
+  min-height: 0 !important;
+  aspect-ratio: 4 / 3;
+  padding: 0 !important;
+  overflow: hidden;
+  background: #111;
+  border: 1px solid #111;
+}
+
+.v2-detail-art.v2-detail-art-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Real gallery becomes a predictable editorial grid regardless of source dimensions. */
+.v2-gallery-live {
+  align-items: stretch;
+}
+
+.v2-gallery-live > div {
+  min-height: 0 !important;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  overflow: hidden;
+  background: #111;
+}
+
+.v2-gallery-live > div.wide {
+  aspect-ratio: 16 / 9;
+  min-height: 0 !important;
+}
+
+.v2-gallery-live img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .v2-testimonial-grid {
@@ -197,6 +352,10 @@
     padding-right: 20px;
   }
 
+  .v2-detail-art.v2-detail-art-media {
+    aspect-ratio: 16 / 10;
+  }
+
   .v2-testimonial-card,
   .v2-testimonial-card.is-featured {
     grid-column: auto;
@@ -224,6 +383,24 @@
 
   .v2-work-video {
     padding-bottom: 64px;
+  }
+
+  .v2-work-copy {
+    min-height: 0;
+  }
+
+  .v2-work-media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .v2-gallery-live,
+  .v2-gallery-live > div.wide {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-gallery-live > div,
+  .v2-gallery-live > div.wide {
+    aspect-ratio: 4 / 3;
   }
 
   .v2-testimonials-hero h1 {
