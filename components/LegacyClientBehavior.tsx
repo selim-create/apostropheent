@@ -4,6 +4,13 @@ import { useEffect } from 'react';
 
 const sectionIds = ['home', 'aboutus', 'services', 'fields', 'contact'] as const;
 
+function isV2Path(pathname: string) {
+  return pathname.startsWith('/work')
+    || pathname.startsWith('/testimonials')
+    || pathname.startsWith('/fr/projets')
+    || pathname.startsWith('/fr/temoignages');
+}
+
 export default function LegacyClientBehavior() {
   useEffect(() => {
     const navLinks = Array.from(
@@ -11,6 +18,7 @@ export default function LegacyClientBehavior() {
     );
 
     let animationFrame = 0;
+    let hashTimer = 0;
 
     const updateActiveNavigation = () => {
       animationFrame = 0;
@@ -43,11 +51,23 @@ export default function LegacyClientBehavior() {
     };
 
     const scheduleNavigationUpdate = () => {
-      if (animationFrame) {
-        return;
-      }
-
+      if (animationFrame) return;
       animationFrame = window.requestAnimationFrame(updateActiveNavigation);
+    };
+
+    const scrollToCurrentHash = () => {
+      if (!window.location.hash || isV2Path(window.location.pathname)) return;
+
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      const target = document.getElementById(id);
+      if (!target) return;
+
+      const header = document.getElementById('header');
+      const headerHeight = header?.getBoundingClientRect().height ?? 70;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+
+      window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+      scheduleNavigationUpdate();
     };
 
     const forceCleanNavigation = (event: MouseEvent) => {
@@ -59,51 +79,31 @@ export default function LegacyClientBehavior() {
       }
 
       const targetUrl = new URL(anchor.href, window.location.href);
-
-      if (targetUrl.origin !== window.location.origin) {
-        return;
-      }
+      if (targetUrl.origin !== window.location.origin) return;
 
       const isLanguageLink = Boolean(anchor.closest('.dilsecimi'));
-      const currentIsV2 = window.location.pathname.startsWith('/work') || window.location.pathname.startsWith('/testimonials');
-      const targetIsV2 = targetUrl.pathname.startsWith('/work') || targetUrl.pathname.startsWith('/testimonials');
+      const currentIsV2 = isV2Path(window.location.pathname);
+      const targetIsV2 = isV2Path(targetUrl.pathname);
       const crossesLegacyBoundary = currentIsV2 !== targetIsV2;
+      const targetsHomeHash = Boolean(targetUrl.hash) && (targetUrl.pathname === '/' || targetUrl.pathname === '/fr');
 
-      if (!isLanguageLink && !crossesLegacyBoundary) {
-        return;
-      }
+      if (!isLanguageLink && !crossesLegacyBoundary && !targetsHomeHash) return;
 
-      if (targetUrl.pathname === window.location.pathname && targetUrl.hash === window.location.hash) {
-        return;
-      }
+      if (targetUrl.pathname === window.location.pathname && targetUrl.hash === window.location.hash) return;
 
       event.preventDefault();
       event.stopPropagation();
       window.location.assign(targetUrl.href);
     };
 
-    // The legacy theme mutates the DOM and keeps plugin observers alive after initialization.
-    // Language changes and transitions between legacy home routes and the new v2 routes therefore
-    // intentionally use a clean document navigation instead of a Next.js client transition.
     document.addEventListener('click', forceCleanNavigation, true);
     window.addEventListener('scroll', scheduleNavigationUpdate, { passive: true });
     window.addEventListener('resize', scheduleNavigationUpdate);
+    window.addEventListener('hashchange', scrollToCurrentHash);
 
-    const copyright = document.querySelector<HTMLElement>('.fcopy');
-    if (copyright) {
-      copyright.textContent = copyright.textContent?.replace('2023', '2026') ?? '';
-    }
-
-    const footerCredit = document.querySelector<HTMLAnchorElement>(
-      '#footer .footer-copyright a[href*="kronomondo"]',
-    );
-
-    if (footerCredit) {
-      footerCredit.href = 'https://hipmedya.com';
-      footerCredit.title = 'Hip Medya';
-      footerCredit.setAttribute('aria-label', 'Hip Medya');
-      footerCredit.innerHTML = '<span class="footer-credit-hip">hip.</span>';
-    }
+    // The old theme also performs its own hash handling. Run once after hydration/theme init
+    // so cross-route anchors always end at the requested section instead of the top of Home.
+    hashTimer = window.setTimeout(scrollToCurrentHash, 900);
 
     updateActiveNavigation();
 
@@ -111,10 +111,10 @@ export default function LegacyClientBehavior() {
       document.removeEventListener('click', forceCleanNavigation, true);
       window.removeEventListener('scroll', scheduleNavigationUpdate);
       window.removeEventListener('resize', scheduleNavigationUpdate);
+      window.removeEventListener('hashchange', scrollToCurrentHash);
+      window.clearTimeout(hashTimer);
 
-      if (animationFrame) {
-        window.cancelAnimationFrame(animationFrame);
-      }
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
     };
   }, []);
 
