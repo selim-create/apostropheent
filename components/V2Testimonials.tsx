@@ -1,12 +1,12 @@
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
-import { testimonials, type SiteLanguage } from '@/lib/site-v2-content';
+import { getApiTestimonials } from '@/lib/apostrophe-api';
+import type { SiteLanguage } from '@/lib/site-v2-content';
 import { v2Ui } from '@/lib/site-v2-i18n';
 
-const testimonialTones = ['pink', 'blue', 'orange', 'cream', 'red', 'blue', 'pink'] as const;
-
-export default function V2Testimonials({ lang }: { lang: SiteLanguage }) {
+export default async function V2Testimonials({ lang }: { lang: SiteLanguage }) {
   const ui = v2Ui[lang];
+  const testimonials = await getApiTestimonials(lang);
 
   return (
     <main className="v2-page v2-page-testimonials">
@@ -25,13 +25,12 @@ export default function V2Testimonials({ lang }: { lang: SiteLanguage }) {
 
       <section className="v2-testimonial-grid" aria-label={ui.testimonialsAria}>
         {testimonials.map((item, index) => {
-          const tone = testimonialTones[index % testimonialTones.length];
           const featured = index === 0;
 
           return (
             <article
-              className={`v2-testimonial-card testimonial-${tone}${featured ? ' is-featured' : ''}`}
-              key={`${item.name}-${item.company}`}
+              className={`v2-testimonial-card testimonial-${item.accent}${featured ? ' is-featured' : ''}`}
+              key={item.id}
             >
               <div className="v2-testimonial-topline">
                 <span className="v2-testimonial-number">{String(index + 1).padStart(2, '0')}</span>

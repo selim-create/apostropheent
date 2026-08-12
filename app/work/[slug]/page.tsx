@@ -1,7 +1,8 @@
 import V2WorkDetail from '@/components/V2WorkDetail';
-import { works } from '@/lib/site-v2-content';
+import { getApiWork } from '@/lib/apostrophe-api';
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const works = await getApiWork('en');
   return works.map((work) => ({ slug: work.slug }));
 }
 
