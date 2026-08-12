@@ -9,6 +9,61 @@ export type MediaAsset = {
   height: number | null;
 };
 
+export type ApiHome = {
+  id: number;
+  title: string;
+  hero_title: string;
+  about_heading: string;
+  about_content: string;
+  services_heading: string;
+  fields_heading: string;
+  contact_heading: string;
+  hero_desktop: MediaAsset | null;
+  hero_mobile: MediaAsset | null;
+  translations: Record<string, { id: number; slug: string }>;
+  rank_math: {
+    title: string;
+    description: string;
+    focus_keyword: string;
+  };
+};
+
+export type ApiService = {
+  id: number;
+  slug: string;
+  title: string;
+  content: string;
+  image: MediaAsset | null;
+  style_key: string;
+  order: number;
+};
+
+export type ApiField = {
+  id: number;
+  slug: string;
+  title: string;
+  order: number;
+};
+
+export type ApiSite = {
+  schema_version: string;
+  language: ApiLanguage;
+  home: ApiHome | null;
+  services: ApiService[];
+  fields: ApiField[];
+  contact: {
+    email: string;
+    phone: string;
+    instagram: string;
+    linkedin: string;
+    addresses: {
+      london: string;
+      paris: string;
+      istanbul: string;
+    };
+  };
+};
+
 export type ApiWorkItem = {
   id: number;
   slug: string;
@@ -61,6 +116,10 @@ async function apiFetch<T>(path: string): Promise<T> {
   }
 
   return response.json() as Promise<T>;
+}
+
+export async function getApiSite(lang: ApiLanguage): Promise<ApiSite> {
+  return apiFetch<ApiSite>(`/site?lang=${lang}`);
 }
 
 export async function getApiWork(lang: ApiLanguage): Promise<ApiWorkItem[]> {
