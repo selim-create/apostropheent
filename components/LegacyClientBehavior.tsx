@@ -50,17 +50,30 @@ export default function LegacyClientBehavior() {
       animationFrame = window.requestAnimationFrame(updateActiveNavigation);
     };
 
-    const forceLanguageReload = (event: MouseEvent) => {
+    const forceCleanNavigation = (event: MouseEvent) => {
       const target = event.target as Element | null;
-      const languageLink = target?.closest<HTMLAnchorElement>('.dilsecimi a');
+      const anchor = target?.closest<HTMLAnchorElement>('a[href]');
 
-      if (!languageLink) {
+      if (!anchor || anchor.target === '_blank' || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
         return;
       }
 
-      const targetUrl = new URL(languageLink.href, window.location.href);
+      const targetUrl = new URL(anchor.href, window.location.href);
 
-      if (targetUrl.pathname === window.location.pathname) {
+      if (targetUrl.origin !== window.location.origin) {
+        return;
+      }
+
+      const isLanguageLink = Boolean(anchor.closest('.dilsecimi'));
+      const currentIsV2 = window.location.pathname.startsWith('/work') || window.location.pathname.startsWith('/testimonials');
+      const targetIsV2 = targetUrl.pathname.startsWith('/work') || targetUrl.pathname.startsWith('/testimonials');
+      const crossesLegacyBoundary = currentIsV2 !== targetIsV2;
+
+      if (!isLanguageLink && !crossesLegacyBoundary) {
+        return;
+      }
+
+      if (targetUrl.pathname === window.location.pathname && targetUrl.hash === window.location.hash) {
         return;
       }
 
@@ -69,10 +82,10 @@ export default function LegacyClientBehavior() {
       window.location.assign(targetUrl.href);
     };
 
-    // Keep the legacy migration deterministic while the old theme scripts are still loaded.
-    // Next.js client-side language navigation leaves DOM mutations from theme.js behind,
-    // therefore language changes intentionally perform a clean document navigation.
-    document.addEventListener('click', forceLanguageReload, true);
+    // The legacy theme mutates the DOM and keeps plugin observers alive after initialization.
+    // Language changes and transitions between legacy home routes and the new v2 routes therefore
+    // intentionally use a clean document navigation instead of a Next.js client transition.
+    document.addEventListener('click', forceCleanNavigation, true);
     window.addEventListener('scroll', scheduleNavigationUpdate, { passive: true });
     window.addEventListener('resize', scheduleNavigationUpdate);
 
@@ -95,7 +108,7 @@ export default function LegacyClientBehavior() {
     updateActiveNavigation();
 
     return () => {
-      document.removeEventListener('click', forceLanguageReload, true);
+      document.removeEventListener('click', forceCleanNavigation, true);
       window.removeEventListener('scroll', scheduleNavigationUpdate);
       window.removeEventListener('resize', scheduleNavigationUpdate);
 
