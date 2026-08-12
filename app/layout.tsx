@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import LegacyClientBehavior from '@/components/LegacyClientBehavior';
 import './globals.css';
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="stylesheet" href="/assets/css/custom.css" />
       </head>
       <body>
+        <Script src="https://code.jquery.com/jquery-3.7.1.min.js" strategy="beforeInteractive" />
         {children}
         <LegacyClientBehavior />
       </body>
