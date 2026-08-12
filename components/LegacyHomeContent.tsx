@@ -10,13 +10,32 @@ const serviceAssetMap: Record<string, string> = {
   'strategic-consultancy': '/assets/img/services/strategic-consultancy.gif',
 };
 
-function normalizeCmsHtml(html: string): string {
-  return html
+function cmsParagraphs(html: string): string[] {
+  const normalized = html
     .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<p[^>]*>(?:\s|&nbsp;|&#160;|<br\s*\/?\s*>)*<\/p>/gi, '')
-    .replace(/<div[^>]*>(?:\s|&nbsp;|&#160;|<br\s*\/?\s*>)*<\/div>/gi, '')
-    .replace(/(?:<br\s*\/?\s*>\s*){3,}/gi, '<br><br>')
+    .replace(/&nbsp;|&#160;/gi, ' ')
+    .replace(/<br\s*\/?\s*>/gi, '\n')
+    .replace(/<\/(p|div|li|blockquote|h[1-6])\s*>/gi, '\n\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/[\t\r]+/g, ' ')
     .trim();
+
+  return normalized
+    .split(/\n\s*\n+/)
+    .map((paragraph) => paragraph.replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
+}
+
+function renderLegacyCopy(html: string, className = 'metin') {
+  const paragraphs = cmsParagraphs(html);
+
+  return paragraphs.map((paragraph, index) => (
+    <p
+      className={`${className}${index < paragraphs.length - 1 ? ' mb-3' : ''}`}
+      key={`${paragraph.slice(0, 32)}-${index}`}
+      dangerouslySetInnerHTML={{ __html: paragraph }}
+    />
+  ));
 }
 
 export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage }) {
@@ -26,7 +45,7 @@ export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage
 
   const heroTitle = home?.hero_title || c.heroTitle;
   const aboutHeading = home?.about_heading || c.nav.about;
-  const aboutHtml = normalizeCmsHtml(home?.about_content || c.aboutHtml);
+  const aboutHtml = home?.about_content || c.aboutHtml;
   const servicesHeading = home?.services_heading || c.nav.services;
   const fieldsHeading = home?.fields_heading || c.nav.fields;
   const contactHeading = home?.contact_heading || c.nav.contact;
@@ -35,13 +54,13 @@ export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage
     ? api.services.map((service) => ({
         id: service.style_key || service.slug,
         title: service.title,
-        contentHtml: normalizeCmsHtml(service.content),
+        contentHtml: service.content,
         image: service.image?.url || serviceAssetMap[service.style_key] || '',
       }))
     : c.services.map((service) => ({
         id: service.id,
         title: service.title,
-        contentHtml: normalizeCmsHtml(service.content),
+        contentHtml: service.content,
         image: service.image,
       }));
 
@@ -80,7 +99,7 @@ export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage
       <section id="aboutus" className="py-5 border-0 m-0 appear-animation" data-appear-animation="fadeIn">
         <div className="container my-3">
           <div className="row mb-5"><div className="col text-center appear-animation" data-appear-animation="fadeInUpShorter" data-appear-animation-delay="200"><h2 className="font-weight-semi-bold mb-2">{aboutHeading}</h2></div></div>
-          <div className="row"><div className="col text-center appear-animation" data-appear-animation="fadeInLeftShorter" data-appear-animation-delay="300"><div className="metin apostrophe-cms-copy" dangerouslySetInnerHTML={{ __html: aboutHtml }} /></div></div>
+          <div className="row"><div className="col text-center appear-animation" data-appear-animation="fadeInLeftShorter" data-appear-animation-delay="300">{renderLegacyCopy(aboutHtml)}</div></div>
         </div>
       </section>
 
@@ -93,7 +112,7 @@ export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage
               <div className="row py-3" id={service.id} key={service.id}>
                 <div className={`col-lg-8 col-md-8 appear-animation align-self-center order-2 ${imageFirst ? 'order-lg-2 order-md-2' : 'order-lg-1 order-md-1'}`} data-appear-animation={imageFirst ? 'fadeInLeftShorter' : 'fadeInRightShorter'} data-appear-animation-delay="300">
                   <div className={`services-head-${index + 1} mb-3`}>{service.title}</div>
-                  <div className="metin mb-3 apostrophe-cms-copy" dangerouslySetInnerHTML={{ __html: service.contentHtml }} />
+                  <div className="mb-3">{renderLegacyCopy(service.contentHtml)}</div>
                 </div>
                 <div className={`col-lg-4 col-md-4 appear-animation align-self-center order-1 ${imageFirst ? 'order-lg-1 order-md-1' : 'order-lg-2 order-md-2'}`} data-appear-animation={imageFirst ? 'fadeInRightShorter' : 'fadeInLeftShorter'} data-appear-animation-delay="300">
                   {service.image ? <img src={service.image} className="img-fluid mb-3 mt-3" alt={service.title} /> : null}
