@@ -3,6 +3,7 @@ import Script from 'next/script';
 import LegacyClientBehavior from '@/components/LegacyClientBehavior';
 import './globals.css';
 import './site-v2.css';
+import './site-shell.css';
 
 export const metadata: Metadata = {
   title: 'Apostrophe Entertainment',
