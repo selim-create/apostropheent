@@ -1,28 +1,11 @@
-* { box-sizing: border-box; }
+@import url('/assets/css/theme-core.css');
+@import url('/assets/css/theme.css');
+@import url('/assets/css/custom.css');
 
-html, body { margin: 0; min-height: 100%; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f4f4f2;
-  color: #111;
+  margin: 0;
 }
-
-.migration-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 18px;
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 48px 28px;
-}
-
-.migration-logo { width: min(320px, 72vw); height: auto; }
-.migration-kicker { margin: 18px 0 0; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
-.migration-shell h1 { margin: 0; font-size: clamp(42px, 8vw, 92px); line-height: .95; font-weight: 700; }
-.migration-shell p { max-width: 720px; font-size: 18px; line-height: 1.6; }
-.migration-status { display: flex; flex-wrap: wrap; gap: 10px; }
-.migration-status span { border: 1px solid #111; border-radius: 999px; padding: 8px 12px; font-size: 13px; }
