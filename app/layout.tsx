@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import LegacyClientBehavior from '@/components/LegacyClientBehavior';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -14,7 +15,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="stylesheet" href="/assets/css/theme.css" />
         <link rel="stylesheet" href="/assets/css/custom.css" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <LegacyClientBehavior />
+      </body>
     </html>
   );
 }
