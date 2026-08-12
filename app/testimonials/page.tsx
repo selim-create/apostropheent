@@ -11,16 +11,14 @@ export default function TestimonialsPage() {
 
       <section className="v2-hero-block v2-testimonials-hero">
         <p className="v2-eyebrow">CLIENT VOICES</p>
-        <div className="v2-testimonials-hero-grid">
-          <h1>TESTIMONIALS</h1>
-          <p className="v2-intro">{testimonialsIntro}</p>
-        </div>
+        <h1>TESTIMONIALS</h1>
+        <p className="v2-intro v2-testimonials-intro">{testimonialsIntro}</p>
       </section>
 
       <section className="v2-testimonial-grid" aria-label="Client testimonials">
         {testimonials.map((item, index) => {
           const tone = testimonialTones[index % testimonialTones.length];
-          const featured = index === 0 || index === 4;
+          const featured = index === 0;
 
           return (
             <article
