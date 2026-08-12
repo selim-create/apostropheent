@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import V2Header from '@/components/V2Header';
+import SiteFooter from '@/components/SiteFooter';
+import SiteHeader from '@/components/SiteHeader';
 import { workIntro, works } from '@/lib/site-v2-content';
 
 export default function WorkPage() {
   return (
     <main className="v2-page v2-page-work">
-      <V2Header active="work" />
+      <SiteHeader active="work" />
       <section className="v2-hero-block">
         <p className="v2-eyebrow">SELECTED WORK</p>
         <h1>WORK</h1>
@@ -27,6 +28,7 @@ export default function WorkPage() {
           </Link>
         ))}
       </section>
+      <SiteFooter />
     </main>
   );
 }
