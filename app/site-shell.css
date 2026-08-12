@@ -1,8 +1,39 @@
 .apostrophe-shared-header {
-  position: sticky;
   top: 0;
   z-index: 1200;
   width: 100%;
+}
+
+.apostrophe-shared-header.apostrophe-inner-header {
+  position: sticky;
+  background: #fffaf2;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+}
+
+.apostrophe-shared-header.apostrophe-inner-header .header-body {
+  background: #fffaf2 !important;
+}
+
+.apostrophe-shared-header.apostrophe-home-header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: transparent;
+  border-bottom: 0;
+}
+
+.apostrophe-shared-header.apostrophe-home-header .header-body {
+  background: transparent !important;
+}
+
+.apostrophe-shared-header.apostrophe-home-header.is-scrolled {
+  position: fixed;
+  background: #fffaf2;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+}
+
+.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body {
+  background: #fffaf2 !important;
 }
 
 .apostrophe-shared-header .header-body {
@@ -11,38 +42,49 @@
 }
 
 .apostrophe-shared-header .header-container.container {
-  width: min(1440px, calc(100% - 64px));
-  max-width: 1440px;
+  width: min(1480px, calc(100% - 48px));
+  max-width: 1480px;
 }
 
 .apostrophe-shared-header #mainNav {
   flex-wrap: nowrap;
   align-items: center;
+  gap: 0;
 }
 
 .apostrophe-shared-header #mainNav > li {
   white-space: nowrap;
 }
 
+.apostrophe-shared-header #mainNav > li > a {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
-  font-size: 13px;
-  padding-left: 9px;
-  padding-right: 9px;
+  font-size: 12px;
+  padding-left: 7px;
+  padding-right: 7px;
+  letter-spacing: 0;
 }
 
 .apostrophe-shared-header.apostrophe-lang-fr .header-logo {
-  margin-right: 18px;
+  margin-right: 12px;
 }
 
-@media (max-width: 1240px) and (min-width: 992px) {
+.apostrophe-shared-header.apostrophe-lang-fr .header-logo img {
+  max-width: 190px;
+}
+
+@media (max-width: 1320px) and (min-width: 992px) {
   .apostrophe-shared-header .header-container.container {
-    width: calc(100% - 32px);
+    width: calc(100% - 24px);
   }
 
   .apostrophe-shared-header #mainNav > li > a {
     font-size: 12px;
-    padding-left: 7px;
-    padding-right: 7px;
+    padding-left: 6px;
+    padding-right: 6px;
   }
 
   .apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
@@ -52,7 +94,33 @@
   }
 }
 
+@media (max-width: 1100px) and (min-width: 992px) {
+  .apostrophe-shared-header .header-logo img {
+    max-width: 170px;
+  }
+
+  .apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
+    font-size: 10.5px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
 @media (max-width: 991px) {
+  .apostrophe-shared-header.apostrophe-home-header,
+  .apostrophe-shared-header.apostrophe-home-header.is-scrolled,
+  .apostrophe-shared-header.apostrophe-inner-header {
+    position: sticky;
+    background: #fffaf2;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+  }
+
+  .apostrophe-shared-header.apostrophe-home-header .header-body,
+  .apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body,
+  .apostrophe-shared-header.apostrophe-inner-header .header-body {
+    background: #fffaf2 !important;
+  }
+
   .apostrophe-shared-header .header-container.container {
     width: calc(100% - 32px);
   }
