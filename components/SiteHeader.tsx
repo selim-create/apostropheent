@@ -7,7 +7,7 @@ export default function SiteHeader({ active }: { active?: SiteHeaderActive }) {
 
   return (
     <header
-      id="site-header"
+      id="header"
       className="header-transparent header-effect-shrink apostrophe-shared-header"
       data-plugin-options="{'stickyEnabled': true, 'stickyEffect': 'shrink', 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyChangeLogo': true, 'stickyStartAt': 30, 'stickyHeaderContainerHeight': 70}"
     >
