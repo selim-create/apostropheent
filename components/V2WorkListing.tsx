@@ -1,0 +1,43 @@
+import Link from 'next/link';
+import SiteFooter from '@/components/SiteFooter';
+import SiteHeader from '@/components/SiteHeader';
+import { works, type SiteLanguage } from '@/lib/site-v2-content';
+import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
+
+export default function V2WorkListing({ lang }: { lang: SiteLanguage }) {
+  const ui = v2Ui[lang];
+  const basePath = workBasePath(lang);
+
+  return (
+    <main className="v2-page v2-page-work">
+      <SiteHeader
+        active="work"
+        lang={lang}
+        enHref="/work"
+        frHref="/fr/projets"
+      />
+      <section className="v2-hero-block">
+        <p className="v2-eyebrow">{ui.workEyebrow}</p>
+        <h1>{ui.workTitle}</h1>
+        <p className="v2-intro">{ui.workIntro}</p>
+      </section>
+      <section className="v2-work-grid" aria-label={ui.workEyebrow}>
+        {works.map((work, index) => (
+          <Link key={work.slug} href={`${basePath}/${work.slug}`} className={`v2-work-card accent-${work.accent}`}>
+            <div className="v2-work-media" aria-hidden="true">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div className="v2-work-shape" />
+            </div>
+            <div className="v2-work-copy">
+              <p className="v2-work-service">{localizeService(work.service, lang)}</p>
+              <h2>{work.title}</h2>
+              {work.year ? <p className="v2-work-year">{work.year}</p> : null}
+              <span className="v2-arrow">{ui.viewCase}</span>
+            </div>
+          </Link>
+        ))}
+      </section>
+      <SiteFooter lang={lang} />
+    </main>
+  );
+}
