@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import V2Header from '@/components/V2Header';
+import SiteFooter from '@/components/SiteFooter';
+import SiteHeader from '@/components/SiteHeader';
 import { works } from '@/lib/site-v2-content';
 
 export function generateStaticParams() {
@@ -15,7 +16,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
   return (
     <main className={`v2-page v2-work-detail accent-${work.accent}`}>
-      <V2Header active="work" />
+      <SiteHeader active="work" />
       <section className="v2-detail-hero">
         <div>
           <Link href="/work" className="v2-back">← ALL WORK</Link>
@@ -52,6 +53,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       <nav className="v2-next-work">
         <Link href="/work">Explore all work →</Link>
       </nav>
+      <SiteFooter />
     </main>
   );
 }
