@@ -59,13 +59,15 @@
   white-space: nowrap;
 }
 
+/* EN and FR intentionally share exactly the same typography scale. */
 #header.apostrophe-shared-header #mainNav > li > a {
+  font-size: 14px;
   padding-left: 10px;
   padding-right: 10px;
 }
 
+/* French labels are shorter now, so only tighten horizontal spacing — never font size. */
 #header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
-  font-size: 12px;
   padding-left: 7px;
   padding-right: 7px;
   letter-spacing: 0;
@@ -91,7 +93,6 @@
   }
 
   #header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
-    font-size: 11px;
     padding-left: 5px;
     padding-right: 5px;
   }
@@ -103,7 +104,6 @@
   }
 
   #header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
-    font-size: 10.5px;
     padding-left: 4px;
     padding-right: 4px;
   }
