@@ -13,17 +13,24 @@ function isV2Path(pathname: string) {
 
 export default function LegacyClientBehavior() {
   useEffect(() => {
+    const header = document.getElementById('header');
     const navLinks = Array.from(
       document.querySelectorAll<HTMLAnchorElement>('#mainNav .nav-link[href^="#"]'),
     );
 
     let animationFrame = 0;
-    let hashTimer = 0;
+
+    const updateHomeHeaderState = () => {
+      if (!header?.classList.contains('apostrophe-home-header')) return;
+      header.classList.toggle('is-scrolled', window.scrollY > 24);
+    };
 
     const updateActiveNavigation = () => {
       animationFrame = 0;
+      updateHomeHeaderState();
 
-      const header = document.getElementById('header');
+      if (isV2Path(window.location.pathname)) return;
+
       const headerHeight = header?.getBoundingClientRect().height ?? 70;
       const marker = headerHeight + 32;
       let activeSection: (typeof sectionIds)[number] = 'home';
@@ -55,19 +62,28 @@ export default function LegacyClientBehavior() {
       animationFrame = window.requestAnimationFrame(updateActiveNavigation);
     };
 
-    const scrollToCurrentHash = () => {
-      if (!window.location.hash || isV2Path(window.location.pathname)) return;
-
-      const id = decodeURIComponent(window.location.hash.slice(1));
+    const scrollToSection = (id: string) => {
       const target = document.getElementById(id);
-      if (!target) return;
+      if (!target) return false;
 
-      const header = document.getElementById('header');
       const headerHeight = header?.getBoundingClientRect().height ?? 70;
       const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
-
       window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
       scheduleNavigationUpdate();
+      return true;
+    };
+
+    const scrollFromQuery = () => {
+      if (isV2Path(window.location.pathname)) return;
+
+      const url = new URL(window.location.href);
+      const section = url.searchParams.get('section');
+      if (!section) return;
+
+      if (scrollToSection(section)) {
+        url.searchParams.delete('section');
+        window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+      }
     };
 
     const forceCleanNavigation = (event: MouseEvent) => {
@@ -85,11 +101,13 @@ export default function LegacyClientBehavior() {
       const currentIsV2 = isV2Path(window.location.pathname);
       const targetIsV2 = isV2Path(targetUrl.pathname);
       const crossesLegacyBoundary = currentIsV2 !== targetIsV2;
-      const targetsHomeHash = Boolean(targetUrl.hash) && (targetUrl.pathname === '/' || targetUrl.pathname === '/fr');
+      const targetsHomeSection = targetUrl.searchParams.has('section');
 
-      if (!isLanguageLink && !crossesLegacyBoundary && !targetsHomeHash) return;
+      if (!isLanguageLink && !crossesLegacyBoundary && !targetsHomeSection) return;
 
-      if (targetUrl.pathname === window.location.pathname && targetUrl.hash === window.location.hash) return;
+      if (targetUrl.pathname === window.location.pathname && targetUrl.search === window.location.search && targetUrl.hash === window.location.hash) {
+        return;
+      }
 
       event.preventDefault();
       event.stopPropagation();
@@ -99,20 +117,19 @@ export default function LegacyClientBehavior() {
     document.addEventListener('click', forceCleanNavigation, true);
     window.addEventListener('scroll', scheduleNavigationUpdate, { passive: true });
     window.addEventListener('resize', scheduleNavigationUpdate);
-    window.addEventListener('hashchange', scrollToCurrentHash);
 
-    // The old theme also performs its own hash handling. Run once after hydration/theme init
-    // so cross-route anchors always end at the requested section instead of the top of Home.
-    hashTimer = window.setTimeout(scrollToCurrentHash, 900);
-
+    updateHomeHeaderState();
     updateActiveNavigation();
+
+    // Query-based cross-route navigation avoids the old theme's delayed hash animation.
+    // Run immediately, then once more on the next frame in case legacy content has just mounted.
+    scrollFromQuery();
+    window.requestAnimationFrame(scrollFromQuery);
 
     return () => {
       document.removeEventListener('click', forceCleanNavigation, true);
       window.removeEventListener('scroll', scheduleNavigationUpdate);
       window.removeEventListener('resize', scheduleNavigationUpdate);
-      window.removeEventListener('hashchange', scrollToCurrentHash);
-      window.clearTimeout(hashTimer);
 
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
     };
