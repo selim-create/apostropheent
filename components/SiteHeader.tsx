@@ -1,9 +1,20 @@
 import Link from 'next/link';
+import { legacyContent, type LegacyLanguage } from '@/lib/legacy-content';
 
 export type SiteHeaderActive = 'home' | 'about' | 'services' | 'fields' | 'work' | 'testimonials' | 'contact';
 
-export default function SiteHeader({ active }: { active?: SiteHeaderActive }) {
+type SiteHeaderProps = {
+  active?: SiteHeaderActive;
+  lang?: LegacyLanguage;
+  homePage?: boolean;
+};
+
+export default function SiteHeader({ active, lang = 'en', homePage = false }: SiteHeaderProps) {
+  const c = legacyContent[lang];
+  const isFr = lang === 'fr';
+  const homePath = isFr ? '/fr' : '/';
   const navClass = (key: SiteHeaderActive) => `nav-link${active === key ? ' active' : ''}`;
+  const sectionHref = (section: string) => homePage ? `#${section}` : `${homePath}#${section}`;
 
   return (
     <header
@@ -17,7 +28,7 @@ export default function SiteHeader({ active }: { active?: SiteHeaderActive }) {
             <div className="header-column">
               <div className="header-row">
                 <div className="header-logo">
-                  <Link href="/" title="Apostrophe Entertainment">
+                  <Link href={homePath} title="Apostrophe Entertainment">
                     <img alt="Apostrophe Entertainment" src="/assets/img/logo.svg" className="logo-main" />
                   </Link>
                 </div>
@@ -29,18 +40,24 @@ export default function SiteHeader({ active }: { active?: SiteHeaderActive }) {
                 <div className="header-nav header-nav-links header-nav-dropdowns-dark header-nav-light-text order-2 order-lg-1">
                   <div className="header-nav-main header-nav-main-font-lg header-nav-main-font-lg-upper-2 header-nav-main-mobile-dark header-nav-main-square header-nav-main-dropdown-no-borders header-nav-main-effect-2 header-nav-main-sub-effect-1">
                     <nav className="collapse">
-                      <ul className="nav nav-pills" id="mainNavV2">
-                        <li><Link className={navClass('home')} href="/">HOME</Link></li>
-                        <li><Link className={navClass('about')} href="/#aboutus">ABOUT US</Link></li>
-                        <li><Link className={navClass('services')} href="/#services">SERVICES</Link></li>
-                        <li><Link className={navClass('fields')} href="/#fields">FIELDS</Link></li>
+                      <ul className="nav nav-pills" id="mainNav">
+                        <li>
+                          {homePage ? (
+                            <a data-hash="" className={navClass('home')} href="#home">{c.nav.home}</a>
+                          ) : (
+                            <Link className={navClass('home')} href={homePath}>{c.nav.home}</Link>
+                          )}
+                        </li>
+                        <li><a className={navClass('about')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('aboutus')}>{c.nav.about}</a></li>
+                        <li><a className={navClass('services')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('services')}>{c.nav.services}</a></li>
+                        <li><a className={navClass('fields')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('fields')}>{c.nav.fields}</a></li>
                         <li><Link className={navClass('work')} href="/work">WORK</Link></li>
                         <li><Link className={navClass('testimonials')} href="/testimonials">TESTIMONIALS</Link></li>
-                        <li><Link className={navClass('contact')} href="/#contact">CONTACT US</Link></li>
+                        <li><a className={navClass('contact')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('contact')}>{c.nav.contact}</a></li>
                         <li className="dil">
                           <div className="dilsecimi">
-                            <Link title="English" href="/" className="aktif">EN</Link>
-                            <Link title="Français" href="/fr">FR</Link>
+                            <Link title={c.languageLabels.en} href="/" className={!isFr ? 'aktif' : undefined}>EN</Link>
+                            <Link title={c.languageLabels.fr} href="/fr" className={isFr ? 'aktif' : undefined}>FR</Link>
                           </div>
                         </li>
                       </ul>
