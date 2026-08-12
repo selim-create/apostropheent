@@ -5,3 +5,19 @@ html {
 body {
   margin: 0;
 }
+
+.footer-credit-hip {
+  display: inline-block;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  text-transform: lowercase;
+}
+
+#footer .footer-copyright a:hover .footer-credit-hip {
+  text-decoration: none;
+  opacity: 0.82;
+}
