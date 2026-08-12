@@ -28,6 +28,20 @@ body {
   color: #111;
 }
 
+.v2-page > .apostrophe-shared-header {
+  background: #fffaf2;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+}
+
+.v2-page > .apostrophe-shared-header .header-body {
+  background: #fffaf2 !important;
+}
+
+.v2-page > .apostrophe-shared-header + .v2-hero-block,
+.v2-page > .apostrophe-shared-header + .v2-detail-hero {
+  border-top: 0;
+}
+
 .v2-header {
   position: sticky;
   top: 0;
