@@ -1,7 +1,3 @@
-@import url('/assets/css/theme-core.css');
-@import url('/assets/css/theme.css');
-@import url('/assets/css/custom.css');
-
 html {
   scroll-behavior: smooth;
 }
