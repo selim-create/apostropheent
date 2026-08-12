@@ -24,14 +24,31 @@ export default function SiteHeader({
   const isFr = lang === 'fr';
   const homePath = isFr ? '/fr' : '/';
   const navClass = (key: SiteHeaderActive) => `nav-link${active === key ? ' active' : ''}`;
-  const sectionHref = (section: string) => homePage ? `#${section}` : `${homePath}#${section}`;
+  const sectionHref = (section: string) => homePage ? `#${section}` : `${homePath}?section=${section}`;
+
+  const navLabels = isFr
+    ? {
+        home: 'ACCUEIL',
+        about: 'AGENCE',
+        services: 'SERVICES',
+        fields: 'DOMAINES',
+        contact: 'CONTACT',
+      }
+    : {
+        home: c.nav.home,
+        about: c.nav.about,
+        services: c.nav.services,
+        fields: c.nav.fields,
+        contact: c.nav.contact,
+      };
 
   return (
     <header
       id="header"
-      className={`header-transparent header-effect-shrink apostrophe-shared-header apostrophe-lang-${lang}`}
+      className={`header-transparent header-effect-shrink apostrophe-shared-header apostrophe-lang-${lang}${homePage ? ' apostrophe-home-header' : ' apostrophe-inner-header'}`}
+      data-home-header={homePage ? 'true' : 'false'}
     >
-      <div className="header-body border-top-0 bg-light box-shadow-none">
+      <div className="header-body border-top-0 box-shadow-none">
         <div className="header-container container">
           <div className="header-row">
             <div className="header-column">
@@ -52,17 +69,17 @@ export default function SiteHeader({
                       <ul className="nav nav-pills" id="mainNav">
                         <li>
                           {homePage ? (
-                            <a data-hash="" className={navClass('home')} href="#home">{c.nav.home}</a>
+                            <a data-hash="" className={navClass('home')} href="#home">{navLabels.home}</a>
                           ) : (
-                            <Link className={navClass('home')} href={homePath}>{c.nav.home}</Link>
+                            <Link className={navClass('home')} href={homePath}>{navLabels.home}</Link>
                           )}
                         </li>
-                        <li><a className={navClass('about')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('aboutus')}>{c.nav.about}</a></li>
-                        <li><a className={navClass('services')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('services')}>{c.nav.services}</a></li>
-                        <li><a className={navClass('fields')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('fields')}>{c.nav.fields}</a></li>
+                        <li><a className={navClass('about')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('aboutus')}>{navLabels.about}</a></li>
+                        <li><a className={navClass('services')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('services')}>{navLabels.services}</a></li>
+                        <li><a className={navClass('fields')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('fields')}>{navLabels.fields}</a></li>
                         <li><Link className={navClass('work')} href={workBasePath(lang)}>{ui.workNav}</Link></li>
                         <li><Link className={navClass('testimonials')} href={testimonialsPath(lang)}>{ui.testimonialsNav}</Link></li>
-                        <li><a className={navClass('contact')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('contact')}>{c.nav.contact}</a></li>
+                        <li><a className={navClass('contact')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('contact')}>{navLabels.contact}</a></li>
                         <li className="dil">
                           <div className="dilsecimi">
                             <Link title={c.languageLabels.en} href={enHref ?? '/'} className={!isFr ? 'aktif' : undefined}>EN</Link>
