@@ -6,8 +6,9 @@ import './site-v2.css';
 import './site-shell.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://apostropheent.com'),
   title: 'Apostrophe Entertainment',
-  description: 'Apostrophe Entertainment headless frontend migration',
+  description: 'Apostrophe Entertainment',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
