@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { legacyContent, type LegacyLanguage } from '@/lib/legacy-content';
+import { testimonialsPath, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
 
 export type SiteHeaderActive = 'home' | 'about' | 'services' | 'fields' | 'work' | 'testimonials' | 'contact';
 
@@ -7,10 +8,19 @@ type SiteHeaderProps = {
   active?: SiteHeaderActive;
   lang?: LegacyLanguage;
   homePage?: boolean;
+  enHref?: string;
+  frHref?: string;
 };
 
-export default function SiteHeader({ active, lang = 'en', homePage = false }: SiteHeaderProps) {
+export default function SiteHeader({
+  active,
+  lang = 'en',
+  homePage = false,
+  enHref,
+  frHref,
+}: SiteHeaderProps) {
   const c = legacyContent[lang];
+  const ui = v2Ui[lang];
   const isFr = lang === 'fr';
   const homePath = isFr ? '/fr' : '/';
   const navClass = (key: SiteHeaderActive) => `nav-link${active === key ? ' active' : ''}`;
@@ -19,8 +29,7 @@ export default function SiteHeader({ active, lang = 'en', homePage = false }: Si
   return (
     <header
       id="header"
-      className="header-transparent header-effect-shrink apostrophe-shared-header"
-      data-plugin-options="{'stickyEnabled': true, 'stickyEffect': 'shrink', 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyChangeLogo': true, 'stickyStartAt': 30, 'stickyHeaderContainerHeight': 70}"
+      className={`header-transparent header-effect-shrink apostrophe-shared-header apostrophe-lang-${lang}`}
     >
       <div className="header-body border-top-0 bg-light box-shadow-none">
         <div className="header-container container">
@@ -51,13 +60,13 @@ export default function SiteHeader({ active, lang = 'en', homePage = false }: Si
                         <li><a className={navClass('about')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('aboutus')}>{c.nav.about}</a></li>
                         <li><a className={navClass('services')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('services')}>{c.nav.services}</a></li>
                         <li><a className={navClass('fields')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('fields')}>{c.nav.fields}</a></li>
-                        <li><Link className={navClass('work')} href="/work">WORK</Link></li>
-                        <li><Link className={navClass('testimonials')} href="/testimonials">TESTIMONIALS</Link></li>
+                        <li><Link className={navClass('work')} href={workBasePath(lang)}>{ui.workNav}</Link></li>
+                        <li><Link className={navClass('testimonials')} href={testimonialsPath(lang)}>{ui.testimonialsNav}</Link></li>
                         <li><a className={navClass('contact')} data-hash={homePage ? '' : undefined} data-hash-offset={homePage ? '0' : undefined} data-hash-offset-lg={homePage ? '68' : undefined} href={sectionHref('contact')}>{c.nav.contact}</a></li>
                         <li className="dil">
                           <div className="dilsecimi">
-                            <Link title={c.languageLabels.en} href="/" className={!isFr ? 'aktif' : undefined}>EN</Link>
-                            <Link title={c.languageLabels.fr} href="/fr" className={isFr ? 'aktif' : undefined}>FR</Link>
+                            <Link title={c.languageLabels.en} href={enHref ?? '/'} className={!isFr ? 'aktif' : undefined}>EN</Link>
+                            <Link title={c.languageLabels.fr} href={frHref ?? '/fr'} className={isFr ? 'aktif' : undefined}>FR</Link>
                           </div>
                         </li>
                       </ul>
