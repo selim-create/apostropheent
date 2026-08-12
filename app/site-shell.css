@@ -17,7 +17,6 @@
   transition: background-color .22s ease, border-color .22s ease, box-shadow .22s ease;
 }
 
-/* Homepage: preserve the original transparent-on-hero appearance. */
 #header.apostrophe-shared-header.apostrophe-home-header {
   background: transparent !important;
   border-bottom: 0 !important;
@@ -30,7 +29,6 @@
   box-shadow: none !important;
 }
 
-/* Once the hero starts moving away, give the fixed header its own readable surface. */
 #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled,
 #header.apostrophe-shared-header.apostrophe-inner-header {
   background: #fffaf2 !important;
@@ -59,14 +57,12 @@
   white-space: nowrap;
 }
 
-/* EN and FR intentionally share exactly the same typography scale. */
 #header.apostrophe-shared-header #mainNav > li > a {
   font-size: 14px;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-/* French labels are shorter now, so only tighten horizontal spacing — never font size. */
 #header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
   padding-left: 7px;
   padding-right: 7px;
@@ -79,6 +75,35 @@
 
 #header.apostrophe-shared-header.apostrophe-lang-fr .header-logo img {
   max-width: 190px;
+}
+
+/* WordPress rich-text output must behave like the original legacy <p class="metin"> markup. */
+.apostrophe-cms-copy {
+  margin: 0;
+}
+
+.apostrophe-cms-copy > :first-child {
+  margin-top: 0 !important;
+}
+
+.apostrophe-cms-copy > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.apostrophe-cms-copy p {
+  margin: 0 0 16px !important;
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.apostrophe-cms-copy p:empty,
+.apostrophe-cms-copy br:only-child {
+  display: none;
+}
+
+#aboutus .apostrophe-cms-copy p {
+  margin-bottom: 0 !important;
 }
 
 @media (max-width: 1320px) and (min-width: 992px) {

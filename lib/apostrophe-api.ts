@@ -104,10 +104,11 @@ export type ApiTestimonial = {
 };
 
 const API_BASE = (process.env.APOSTROPHE_API_URL ?? 'https://api.apostropheent.com').replace(/\/$/, '');
+const IS_DEV = process.env.NODE_ENV !== 'production';
 
 async function apiFetch<T>(path: string): Promise<T> {
   const response = await fetch(`${API_BASE}/wp-json/apostrophe/v1${path}`, {
-    next: { revalidate: 300 },
+    ...(IS_DEV ? { cache: 'no-store' as const } : { next: { revalidate: 300 } }),
     headers: { Accept: 'application/json' },
   });
 
