@@ -1,0 +1,161 @@
+#header.apostrophe-shared-header {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  z-index: 1200 !important;
+  width: 100%;
+  transform: none !important;
+}
+
+#header.apostrophe-shared-header .header-body {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  transition: background-color .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+#header.apostrophe-shared-header.apostrophe-home-header {
+  background: transparent !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+#header.apostrophe-shared-header.apostrophe-home-header .header-body {
+  background: transparent !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+#header.apostrophe-shared-header.apostrophe-home-header.is-scrolled,
+#header.apostrophe-shared-header.apostrophe-inner-header {
+  background: #fffaf2 !important;
+  border-bottom: 1px solid rgba(17, 17, 17, .14) !important;
+}
+
+#header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body,
+#header.apostrophe-shared-header.apostrophe-inner-header .header-body {
+  background: #fffaf2 !important;
+  border-bottom: 1px solid rgba(17, 17, 17, .08) !important;
+  box-shadow: 0 7px 22px rgba(17, 17, 17, .045) !important;
+}
+
+#header.apostrophe-shared-header .header-container.container {
+  width: min(1480px, calc(100% - 48px));
+  max-width: 1480px;
+}
+
+#header.apostrophe-shared-header #mainNav {
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+}
+
+#header.apostrophe-shared-header #mainNav > li {
+  white-space: nowrap;
+}
+
+#header.apostrophe-shared-header #mainNav > li > a {
+  font-size: 14px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
+  padding-left: 7px;
+  padding-right: 7px;
+  letter-spacing: 0;
+}
+
+#header.apostrophe-shared-header.apostrophe-lang-fr .header-logo {
+  margin-right: 12px;
+}
+
+#header.apostrophe-shared-header.apostrophe-lang-fr .header-logo img {
+  max-width: 190px;
+}
+
+/* WordPress rich-text output must behave like the original legacy <p class="metin"> markup. */
+.apostrophe-cms-copy {
+  margin: 0;
+}
+
+.apostrophe-cms-copy > :first-child {
+  margin-top: 0 !important;
+}
+
+.apostrophe-cms-copy > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.apostrophe-cms-copy p {
+  margin: 0 0 16px !important;
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+.apostrophe-cms-copy p:empty,
+.apostrophe-cms-copy br:only-child {
+  display: none;
+}
+
+#aboutus .apostrophe-cms-copy p {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 1320px) and (min-width: 992px) {
+  #header.apostrophe-shared-header .header-container.container {
+    width: calc(100% - 24px);
+  }
+
+  #header.apostrophe-shared-header #mainNav > li > a {
+    font-size: 12px;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  #header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 992px) {
+  #header.apostrophe-shared-header .header-logo img {
+    max-width: 170px;
+  }
+
+  #header.apostrophe-shared-header.apostrophe-lang-fr #mainNav > li > a {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+@media (max-width: 991px) {
+  #header.apostrophe-shared-header,
+  #header.apostrophe-shared-header.apostrophe-home-header,
+  #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled,
+  #header.apostrophe-shared-header.apostrophe-inner-header {
+    position: fixed !important;
+    background: #fffaf2 !important;
+    border-bottom: 1px solid rgba(17, 17, 17, .14) !important;
+  }
+
+  #header.apostrophe-shared-header .header-body,
+  #header.apostrophe-shared-header.apostrophe-home-header .header-body,
+  #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body,
+  #header.apostrophe-shared-header.apostrophe-inner-header .header-body {
+    background: #fffaf2 !important;
+  }
+
+  #header.apostrophe-shared-header .header-container.container {
+    width: calc(100% - 32px);
+  }
+
+  #header.apostrophe-shared-header #mainNav {
+    flex-wrap: wrap;
+  }
+}
