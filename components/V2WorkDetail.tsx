@@ -6,19 +6,20 @@ import SiteHeader from '@/components/SiteHeader';
 import WorkGallery from '@/components/WorkGallery';
 import WorkVideos from '@/components/WorkVideos';
 import { getApiWorkItem } from '@/lib/apostrophe-api';
+import type { MediaAsset } from '@/lib/apostrophe-api';
 import type { SiteLanguage } from '@/lib/site-v2-content';
 import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
 
-function headingSlug(html: string, index: number): string {
-  const text = html
-    .replace(/<[^>]+>/g, '')
-    .replace(/&[a-z0-9#]+;/gi, '-')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+function mediaOrientation(media: MediaAsset | null): 'landscape' | 'portrait' | 'square' {
+  if (!media?.width || !media?.height) return 'landscape';
+  const ratio = media.width / media.height;
+  if (ratio > 1.08) return 'landscape';
+  if (ratio < .92) return 'portrait';
+  return 'square';
+}
 
+function headingSlug(html: string, index: number): string {
+  const text = html.replace(/<[^>]+>/g, '').replace(/&[a-z0-9#]+;/gi, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   return `case-${text || `section-${index + 1}`}`;
 }
 
@@ -37,20 +38,30 @@ function prepareCaseStudy(html: string): { html: string; headings: Array<{ id: s
 
 export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage; slug: string }) {
   let work;
-  try {
-    work = await getApiWorkItem(slug, lang);
-  } catch {
-    notFound();
-  }
+  try { work = await getApiWorkItem(slug, lang); } catch { notFound(); }
 
   const ui = v2Ui[lang];
   const basePath = workBasePath(lang);
   const galleryLabel = lang === 'fr' ? 'GALERIE' : 'GALLERY';
   const videoLabel = lang === 'fr' ? 'VIDÉOS' : 'VIDEOS';
   const caseStudy = prepareCaseStudy(work.content || '');
+  const heroOrientation = mediaOrientation(work.hero_media);
 
   return (
     <main className={`v2-page v2-work-detail accent-${work.accent}`}>
+      <style>{`
+        .v2-work-detail .v2-detail-hero{grid-template-columns:minmax(0,1fr) minmax(360px,560px)!important;align-items:center!important}
+        .v2-work-detail .v2-detail-hero-copy{min-width:0}
+        .v2-work-detail .v2-detail-art.v2-detail-art-media{width:100%!important;min-height:0!important;padding:0!important;overflow:hidden;justify-self:end;align-self:center;display:grid;place-items:center;background:transparent}
+        .v2-work-detail .v2-detail-art.v2-detail-art-media.is-landscape{aspect-ratio:3/2;max-width:560px!important}
+        .v2-work-detail .v2-detail-art.v2-detail-art-media.is-portrait{aspect-ratio:2/3;max-width:420px!important}
+        .v2-work-detail .v2-detail-art.v2-detail-art-media.is-square{aspect-ratio:1;max-width:500px!important}
+        .v2-work-detail .v2-detail-art.v2-detail-art-media img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+        .v2-work-detail .v2-case-study-body,.v2-work-detail .v2-rich-copy{min-width:0;max-width:100%}
+        .v2-work-detail .v2-rich-copy img,.v2-work-detail .v2-rich-copy video,.v2-work-detail .v2-rich-copy iframe{display:block;max-width:100%!important;height:auto!important}
+        .v2-work-detail .v2-rich-copy figure,.v2-work-detail .v2-rich-copy .wp-block-image,.v2-work-detail .v2-rich-copy .alignwide,.v2-work-detail .v2-rich-copy .alignfull{width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;box-sizing:border-box}
+        @media(max-width:980px){.v2-work-detail .v2-detail-hero{grid-template-columns:1fr!important}.v2-work-detail .v2-detail-art.v2-detail-art-media{justify-self:center!important}}
+      `}</style>
       <ScrollReveal />
       <SiteHeader active="work" lang={lang} enHref={`/work/${work.slug}`} frHref={`/fr/projets/${work.slug}`} />
 
@@ -62,7 +73,7 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
           {work.year ? <p className="v2-detail-year">{work.year}</p> : null}
         </div>
         {work.hero_media ? (
-          <div className="v2-detail-art v2-detail-art-media">
+          <div className={`v2-detail-art v2-detail-art-media is-${heroOrientation}`}>
             <img src={work.hero_media.url} alt={work.hero_media.alt || work.title} />
           </div>
         ) : (
@@ -83,23 +94,15 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
         ) : null}
 
         <article className="v2-case-study-body">
-          {work.content ? (
-            <div className="v2-rich-copy" dangerouslySetInnerHTML={{ __html: caseStudy.html }} />
-          ) : (
-            <div className="v2-rich-copy">{ui.defaultBody.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
-          )}
+          {work.content ? <div className="v2-rich-copy" dangerouslySetInnerHTML={{ __html: caseStudy.html }} /> : <div className="v2-rich-copy">{ui.defaultBody.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>}
           {work.external_link?.url ? (
-            <a className="v2-external-link" href={work.external_link.url} target="_blank" rel="noreferrer">
-              {work.external_link.label || ui.externalLink} <span>↗</span>
-            </a>
+            <a className="v2-external-link" href={work.external_link.url} target="_blank" rel="noreferrer">{work.external_link.label || ui.externalLink} <span>↗</span></a>
           ) : null}
         </article>
       </section>
 
       {work.gallery.length > 0 ? <WorkGallery items={work.gallery} title={work.title} label={galleryLabel} /> : null}
-
       <WorkVideos videos={work.videos} legacyUrl={work.video_url} workTitle={work.title} label={videoLabel} />
-
       <nav className="v2-next-work" data-reveal><Link href={basePath}>{ui.exploreAll}</Link></nav>
       <SiteFooter lang={lang} />
     </main>
