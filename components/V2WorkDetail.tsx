@@ -40,6 +40,38 @@ function videoEmbed(url: string): { type: 'embed' | 'file'; src: string } | null
   return null;
 }
 
+function headingSlug(html: string, index: number): string {
+  const text = html
+    .replace(/<[^>]+>/g, '')
+    .replace(/&[a-z0-9#]+;/gi, '-')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return `case-${text || `section-${index + 1}`}`;
+}
+
+function prepareCaseStudy(html: string): {
+  html: string;
+  headings: Array<{ id: string; labelHtml: string }>;
+} {
+  const headings: Array<{ id: string; labelHtml: string }> = [];
+  let index = 0;
+
+  const prepared = html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_match, attributes: string, inner: string) => {
+    const id = headingSlug(inner, index);
+    headings.push({ id, labelHtml: inner });
+    index += 1;
+
+    const cleanAttributes = attributes.replace(/\s+id=(['"]).*?\1/i, '');
+    return `<h2${cleanAttributes} id="${id}">${inner}</h2>`;
+  });
+
+  return { html: prepared, headings };
+}
+
 export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage; slug: string }) {
   let work;
   try {
@@ -51,8 +83,8 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
   const ui = v2Ui[lang];
   const basePath = workBasePath(lang);
   const video = videoEmbed(work.video_url);
-  const storyLabel = lang === 'fr' ? 'ÉTUDE DE CAS' : 'CASE STUDY';
   const galleryLabel = lang === 'fr' ? 'GALERIE' : 'GALLERY';
+  const caseStudy = prepareCaseStudy(work.content || '');
 
   return (
     <main className={`v2-page v2-work-detail accent-${work.accent}`}>
@@ -80,14 +112,21 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
         )}
       </section>
 
-      <section className="v2-case-study" data-reveal>
-        <div className="v2-case-study-marker">
-          <span>01</span>
-          <span>{storyLabel}</span>
-        </div>
+      <section className={`v2-case-study${caseStudy.headings.length ? ' has-toc' : ''}`} data-reveal>
+        {caseStudy.headings.length ? (
+          <nav className="v2-case-study-toc" aria-label={lang === 'fr' ? 'Sections du projet' : 'Project sections'}>
+            {caseStudy.headings.map((heading, index) => (
+              <a href={`#${heading.id}`} key={heading.id}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <span dangerouslySetInnerHTML={{ __html: heading.labelHtml }} />
+              </a>
+            ))}
+          </nav>
+        ) : null}
+
         <article className="v2-case-study-body">
           {work.content ? (
-            <div className="v2-rich-copy" dangerouslySetInnerHTML={{ __html: work.content }} />
+            <div className="v2-rich-copy" dangerouslySetInnerHTML={{ __html: caseStudy.html }} />
           ) : (
             <div className="v2-rich-copy">
               {ui.defaultBody.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -107,7 +146,7 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
 
       {video ? (
         <section className="v2-work-video" aria-label={`${work.title} video`} data-reveal>
-          <div className="v2-work-section-label"><span>03</span><span>VIDEO</span></div>
+          <div className="v2-work-section-label"><span>VIDEO</span></div>
           {video.type === 'embed' ? (
             <div className="v2-work-video-frame">
               <iframe src={video.src} title={`${work.title} video`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
