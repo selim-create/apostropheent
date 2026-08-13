@@ -7,6 +7,7 @@ import './work-case-study.css';
 import './work-listing.css';
 import './site-shell.css';
 import './mobile-header.css';
+import './final-mobile-scroll.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://apostropheent.com'),

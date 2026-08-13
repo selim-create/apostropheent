@@ -15,6 +15,22 @@ type SiteHeaderProps = {
   frHref?: string;
 };
 
+function clearMobileScrollLocks() {
+  const html = document.documentElement;
+  const body = document.body;
+
+  html.classList.remove('apostrophe-mobile-menu-open');
+  body.classList.remove('apostrophe-mobile-menu-open');
+
+  [html, body].forEach((element) => {
+    element.style.removeProperty('overflow');
+    element.style.removeProperty('overflow-y');
+    element.style.removeProperty('height');
+    element.style.removeProperty('position');
+    element.style.removeProperty('touch-action');
+  });
+}
+
 export default function SiteHeader({
   active,
   lang = 'en',
@@ -40,23 +56,25 @@ export default function SiteHeader({
   };
 
   useEffect(() => {
-    document.documentElement.classList.toggle('apostrophe-mobile-menu-open', mobileOpen);
-    document.body.classList.toggle('apostrophe-mobile-menu-open', mobileOpen);
+    clearMobileScrollLocks();
 
-    return () => {
-      document.documentElement.classList.remove('apostrophe-mobile-menu-open');
-      document.body.classList.remove('apostrophe-mobile-menu-open');
-    };
-  }, [mobileOpen]);
-
-  useEffect(() => {
     const closeOnDesktop = () => {
-      if (window.innerWidth >= 992) setMobileOpen(false);
+      if (window.innerWidth >= 992) {
+        setMobileOpen(false);
+        clearMobileScrollLocks();
+      }
     };
 
     window.addEventListener('resize', closeOnDesktop);
-    return () => window.removeEventListener('resize', closeOnDesktop);
+    return () => {
+      window.removeEventListener('resize', closeOnDesktop);
+      clearMobileScrollLocks();
+    };
   }, []);
+
+  useEffect(() => {
+    if (!mobileOpen) clearMobileScrollLocks();
+  }, [mobileOpen]);
 
   const closeMobile = () => setMobileOpen(false);
 
