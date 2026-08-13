@@ -68,7 +68,9 @@ export default async function SiteFooter({ lang = 'en' }: { lang?: LegacyLanguag
               <p className="fcopy">{c.footer.copyright.replace('2023', '2026')}</p>
             </div>
             <div className="col-lg-5 d-flex align-items-center justify-content-center justify-content-lg-end">
-              <a href="https://hipmedya.com" target="_blank" rel="noreferrer" aria-label="Hip Medya"><span className="footer-credit-hip">hip.</span></a>
+              <a className="footer-credit-link" href="https://hipmedya.com" target="_blank" rel="noreferrer" aria-label="Hip Medya">
+                <img className="footer-hip-logo" src="/assets/img/hip-logo.svg" alt="Hip Medya" />
+              </a>
             </div>
           </div>
         </div>
