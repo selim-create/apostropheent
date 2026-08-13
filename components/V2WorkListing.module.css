@@ -7,7 +7,7 @@
 .hero {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 96px 40px 72px;
+  padding: 128px 40px 72px;
   border-bottom: 1px solid #111;
 }
 
@@ -248,7 +248,7 @@
 
 @media (max-width: 680px) {
   .hero {
-    padding-top: 64px;
+    padding-top: 125px;
   }
 
   .intro {
