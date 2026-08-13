@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 
 type GalleryItem = {
   id: number;
@@ -53,7 +53,7 @@ export default function WorkGallery({
   return (
     <section className="v2-work-gallery" aria-label={label} data-reveal>
       <div className="v2-work-gallery-heading">
-        <span>{label}</span>
+        <span>02 · {label}</span>
         <span>{String(items.length).padStart(2, '0')}</span>
       </div>
 
@@ -65,7 +65,7 @@ export default function WorkGallery({
             key={item.id}
             onClick={() => setActiveIndex(index)}
             aria-label={`${label} ${index + 1}: ${item.alt || title}`}
-            style={{ '--gallery-index': index } as React.CSSProperties}
+            style={{ '--gallery-index': index } as CSSProperties}
           >
             <img src={item.url} alt={item.alt || `${title} ${index + 1}`} loading="lazy" />
             <span className="v2-work-gallery-index">{String(index + 1).padStart(2, '0')}</span>
