@@ -4,6 +4,7 @@ import LegacyClientBehavior from '@/components/LegacyClientBehavior';
 import './globals.css';
 import './site-v2.css';
 import './work-case-study.css';
+import './work-listing.css';
 import './site-shell.css';
 
 export const metadata: Metadata = {
