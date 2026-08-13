@@ -24,26 +24,30 @@ export default async function V2WorkListing({ lang }: { lang: SiteLanguage }) {
         <p className="v2-intro">{ui.workIntro}</p>
       </section>
       <section className="v2-work-grid" aria-label={ui.workEyebrow}>
-        {works.map((work, index) => (
-          <Link key={work.id} href={`${basePath}/${work.slug}`} className={`v2-work-card accent-${work.accent}`}>
-            <div className="v2-work-media">
-              {work.thumbnail ? (
-                <img src={work.thumbnail.url} alt={work.thumbnail.alt || work.title} />
-              ) : (
-                <>
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <div className="v2-work-shape" aria-hidden="true" />
-                </>
-              )}
-            </div>
-            <div className="v2-work-copy">
-              <p className="v2-work-service">{localizeService(work.service, lang)}</p>
-              <h2>{work.title}</h2>
-              {work.year ? <p className="v2-work-year">{work.year}</p> : null}
-              <span className="v2-arrow">{ui.viewCase}</span>
-            </div>
-          </Link>
-        ))}
+        {works.map((work, index) => {
+          const cardMedia = work.thumbnail || work.hero_media;
+
+          return (
+            <Link key={work.id} href={`${basePath}/${work.slug}`} className={`v2-work-card accent-${work.accent}`}>
+              <div className={`v2-work-media${cardMedia ? ' has-media' : ''}`}>
+                {cardMedia ? (
+                  <img src={cardMedia.url} alt={cardMedia.alt || work.title} loading="lazy" />
+                ) : (
+                  <>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <div className="v2-work-shape" aria-hidden="true" />
+                  </>
+                )}
+              </div>
+              <div className="v2-work-copy">
+                <p className="v2-work-service">{localizeService(work.service, lang)}</p>
+                <h2>{work.title}</h2>
+                {work.year ? <p className="v2-work-year">{work.year}</p> : null}
+                <span className="v2-arrow">{ui.viewCase}</span>
+              </div>
+            </Link>
+          );
+        })}
       </section>
       <SiteFooter lang={lang} />
     </main>
