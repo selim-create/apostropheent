@@ -21,11 +21,7 @@ export type ApiHome = {
   hero_desktop: MediaAsset | null;
   hero_mobile: MediaAsset | null;
   translations: Record<string, { id: number; slug: string }>;
-  rank_math: {
-    title: string;
-    description: string;
-    focus_keyword: string;
-  };
+  rank_math: { title: string; description: string; focus_keyword: string };
 };
 
 export type ApiService = {
@@ -60,12 +56,20 @@ export type ApiSite = {
     phone: string;
     instagram: string;
     linkedin: string;
-    addresses: {
-      london: string;
-      paris: string;
-      istanbul: string;
-    };
+    addresses: { london: string; paris: string; istanbul: string };
   };
+};
+
+export type ApiWorkVideo = {
+  id: number;
+  url: string;
+  attachment_id: number;
+  source_type: 'youtube' | 'vimeo' | 'file' | 'external';
+  orientation: 'landscape' | 'portrait' | 'square';
+  poster: MediaAsset | null;
+  title: string;
+  featured: boolean;
+  order: number;
 };
 
 export type ApiWorkItem = {
@@ -83,16 +87,10 @@ export type ApiWorkItem = {
   hero_media: MediaAsset | null;
   gallery: MediaAsset[];
   video_url: string;
-  external_link: {
-    label: string;
-    url: string;
-  };
+  videos?: ApiWorkVideo[];
+  external_link: { label: string; url: string };
   translations: Record<string, { id: number; slug: string }>;
-  rank_math: {
-    title: string;
-    description: string;
-    focus_keyword: string;
-  };
+  rank_math: { title: string; description: string; focus_keyword: string };
 };
 
 export type ApiTestimonial = {
@@ -116,10 +114,7 @@ async function apiFetch<T>(path: string): Promise<T> {
     headers: { Accept: 'application/json' },
   });
 
-  if (!response.ok) {
-    throw new Error(`Apostrophe API ${response.status}: ${path}`);
-  }
-
+  if (!response.ok) throw new Error(`Apostrophe API ${response.status}: ${path}`);
   return response.json() as Promise<T>;
 }
 

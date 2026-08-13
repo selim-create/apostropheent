@@ -4,42 +4,10 @@ import ScrollReveal from '@/components/ScrollReveal';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import WorkGallery from '@/components/WorkGallery';
-import WorkVideo from '@/components/WorkVideo';
+import WorkVideos from '@/components/WorkVideos';
 import { getApiWorkItem } from '@/lib/apostrophe-api';
 import type { SiteLanguage } from '@/lib/site-v2-content';
 import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
-
-function videoEmbed(url: string): { type: 'embed' | 'file'; src: string } | null {
-  if (!url) return null;
-
-  try {
-    const parsed = new URL(url);
-    const host = parsed.hostname.replace(/^www\./, '');
-
-    if (host === 'youtu.be') {
-      const id = parsed.pathname.split('/').filter(Boolean)[0];
-      return id ? { type: 'embed', src: `https://www.youtube.com/embed/${id}` } : null;
-    }
-
-    if (host === 'youtube.com' || host === 'm.youtube.com') {
-      const id = parsed.searchParams.get('v') || parsed.pathname.match(/\/(?:embed|shorts)\/([^/?]+)/)?.[1];
-      return id ? { type: 'embed', src: `https://www.youtube.com/embed/${id}` } : null;
-    }
-
-    if (host === 'vimeo.com' || host === 'player.vimeo.com') {
-      const id = parsed.pathname.split('/').filter(Boolean).find((part) => /^\d+$/.test(part));
-      return id ? { type: 'embed', src: `https://player.vimeo.com/video/${id}` } : null;
-    }
-
-    if (/\.(mp4|webm|ogg)(?:$|\?)/i.test(url)) {
-      return { type: 'file', src: url };
-    }
-  } catch {
-    return null;
-  }
-
-  return null;
-}
 
 function headingSlug(html: string, index: number): string {
   const text = html
@@ -54,22 +22,16 @@ function headingSlug(html: string, index: number): string {
   return `case-${text || `section-${index + 1}`}`;
 }
 
-function prepareCaseStudy(html: string): {
-  html: string;
-  headings: Array<{ id: string; labelHtml: string }>;
-} {
+function prepareCaseStudy(html: string): { html: string; headings: Array<{ id: string; labelHtml: string }> } {
   const headings: Array<{ id: string; labelHtml: string }> = [];
   let index = 0;
-
   const prepared = html.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (_match, attributes: string, inner: string) => {
     const id = headingSlug(inner, index);
     headings.push({ id, labelHtml: inner });
     index += 1;
-
     const cleanAttributes = attributes.replace(/\s+id=(['"]).*?\1/i, '');
     return `<h2${cleanAttributes} id="${id}">${inner}</h2>`;
   });
-
   return { html: prepared, headings };
 }
 
@@ -83,19 +45,14 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
 
   const ui = v2Ui[lang];
   const basePath = workBasePath(lang);
-  const video = videoEmbed(work.video_url);
   const galleryLabel = lang === 'fr' ? 'GALERIE' : 'GALLERY';
+  const videoLabel = lang === 'fr' ? 'VIDÉOS' : 'VIDEOS';
   const caseStudy = prepareCaseStudy(work.content || '');
 
   return (
     <main className={`v2-page v2-work-detail accent-${work.accent}`}>
       <ScrollReveal />
-      <SiteHeader
-        active="work"
-        lang={lang}
-        enHref={`/work/${work.slug}`}
-        frHref={`/fr/projets/${work.slug}`}
-      />
+      <SiteHeader active="work" lang={lang} enHref={`/work/${work.slug}`} frHref={`/fr/projets/${work.slug}`} />
 
       <section className="v2-detail-hero">
         <div className="v2-detail-hero-copy">
@@ -129,9 +86,7 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
           {work.content ? (
             <div className="v2-rich-copy" dangerouslySetInnerHTML={{ __html: caseStudy.html }} />
           ) : (
-            <div className="v2-rich-copy">
-              {ui.defaultBody.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            </div>
+            <div className="v2-rich-copy">{ui.defaultBody.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
           )}
           {work.external_link?.url ? (
             <a className="v2-external-link" href={work.external_link.url} target="_blank" rel="noreferrer">
@@ -141,26 +96,11 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
         </article>
       </section>
 
-      {work.gallery.length > 0 ? (
-        <WorkGallery items={work.gallery} title={work.title} label={galleryLabel} />
-      ) : null}
+      {work.gallery.length > 0 ? <WorkGallery items={work.gallery} title={work.title} label={galleryLabel} /> : null}
 
-      {video ? (
-        <section className="v2-work-video" aria-label={`${work.title} video`} data-reveal>
-          <div className="v2-work-section-label"><span>VIDEO</span></div>
-          {video.type === 'embed' ? (
-            <div className="v2-work-video-frame">
-              <iframe src={video.src} title={`${work.title} video`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
-            </div>
-          ) : (
-            <WorkVideo src={video.src} title={work.title} />
-          )}
-        </section>
-      ) : null}
+      <WorkVideos videos={work.videos} legacyUrl={work.video_url} workTitle={work.title} label={videoLabel} />
 
-      <nav className="v2-next-work" data-reveal>
-        <Link href={basePath}>{ui.exploreAll}</Link>
-      </nav>
+      <nav className="v2-next-work" data-reveal><Link href={basePath}>{ui.exploreAll}</Link></nav>
       <SiteFooter lang={lang} />
     </main>
   );
