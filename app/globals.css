@@ -6,20 +6,26 @@ body {
   margin: 0;
 }
 
-.footer-credit-hip {
+.footer-credit-link {
   display: inline-block;
-  color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.06em;
-  text-transform: lowercase;
+  line-height: 0;
 }
 
-#footer .footer-copyright a:hover .footer-credit-hip {
-  text-decoration: none;
+.footer-hip-logo {
+  display: block;
+  width: 68px;
+  max-width: 100%;
+  height: auto;
+}
+
+#footer .footer-copyright .footer-credit-link:hover .footer-hip-logo {
   opacity: 0.82;
+}
+
+@media (max-width: 767px) {
+  .footer-hip-logo {
+    width: 58px;
+  }
 }
 
 .v2-page {
