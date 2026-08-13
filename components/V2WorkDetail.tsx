@@ -4,6 +4,7 @@ import ScrollReveal from '@/components/ScrollReveal';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import WorkGallery from '@/components/WorkGallery';
+import WorkVideo from '@/components/WorkVideo';
 import { getApiWorkItem } from '@/lib/apostrophe-api';
 import type { SiteLanguage } from '@/lib/site-v2-content';
 import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
@@ -152,9 +153,7 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
               <iframe src={video.src} title={`${work.title} video`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
             </div>
           ) : (
-            <video className="v2-work-video-file" controls preload="metadata" playsInline>
-              <source src={video.src} />
-            </video>
+            <WorkVideo src={video.src} title={work.title} />
           )}
         </section>
       ) : null}
