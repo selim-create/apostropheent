@@ -5,38 +5,38 @@
 }
 
 .hero {
-  width: min(100%, 1280px);
+  width: min(100%, 1140px);
   margin: 0 auto;
-  padding: 148px 40px 58px;
+  padding: 132px 24px 42px;
   box-sizing: border-box;
 }
 
 .title {
   margin: 0;
-  font-size: clamp(48px, 6.2vw, 82px);
-  line-height: .95;
-  letter-spacing: -.045em;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: .3px;
   font-weight: 600;
 }
 
 .intro {
-  max-width: 690px;
-  margin: 24px 0 0;
-  font-size: clamp(17px, 1.45vw, 21px);
-  line-height: 1.55;
-  font-weight: 300;
+  max-width: 720px;
+  margin: 14px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 200;
   color: #111;
 }
 
 .grid {
-  width: min(100%, 1280px);
+  width: min(100%, 1140px);
   margin: 0 auto;
-  padding: 12px 40px 96px;
+  padding: 8px 24px 88px;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 34px;
-  row-gap: 58px;
+  column-gap: 28px;
+  row-gap: 46px;
 }
 
 .card {
@@ -67,12 +67,12 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform .45s cubic-bezier(.22,.61,.36,1), opacity .3s ease;
+  transition: transform .4s ease, opacity .3s ease;
 }
 
 .card:hover .image {
-  transform: scale(1.018);
-  opacity: .96;
+  transform: scale(1.012);
+  opacity: .97;
 }
 
 .placeholder {
@@ -84,45 +84,45 @@
 }
 
 .placeholderShape {
-  width: min(34%, 180px);
+  width: min(30%, 150px);
   aspect-ratio: 1;
-  border: 1px solid rgba(17,17,17,.28);
+  border: 1px solid rgba(17,17,17,.2);
   border-radius: 50%;
 }
 
 .copy {
-  padding: 17px 0 0;
+  padding: 14px 0 0;
 }
 
 .service {
-  margin: 0 0 9px;
+  margin: 0 0 7px;
   color: #CE6B79;
-  font-size: 11px;
-  line-height: 1.35;
-  letter-spacing: .055em;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: .04em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .copy h2 {
   margin: 0;
-  max-width: 95%;
-  font-size: clamp(24px, 2vw, 31px);
-  line-height: 1.12;
-  letter-spacing: -.025em;
-  font-weight: 500;
+  max-width: 100%;
+  font-size: 22px;
+  line-height: 1.32;
+  letter-spacing: .2px;
+  font-weight: 400;
   overflow-wrap: break-word;
 }
 
 .arrow {
   display: inline-block;
-  margin-top: 12px;
-  color: rgba(17,17,17,.62);
-  font-size: 10px;
-  line-height: 1;
-  letter-spacing: .055em;
+  margin-top: 9px;
+  color: rgba(17,17,17,.55);
+  font-size: 9px;
+  line-height: 1.2;
+  letter-spacing: .04em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
   transition: color .2s ease;
 }
 
@@ -138,41 +138,37 @@
   }
 
   .hero {
-    padding-top: 124px;
-    padding-bottom: 48px;
+    padding-top: 118px;
+    padding-bottom: 36px;
   }
 
   .grid {
     grid-template-columns: 1fr;
-    row-gap: 44px;
-  }
-
-  .copy h2 {
-    max-width: 100%;
-    font-size: clamp(25px, 5vw, 34px);
+    row-gap: 40px;
   }
 }
 
 @media (max-width: 680px) {
   .hero {
-    padding-top: 118px;
-    padding-bottom: 38px;
+    padding-top: 108px;
+    padding-bottom: 30px;
   }
 
   .title {
-    font-size: clamp(40px, 12vw, 56px);
+    font-size: 30px;
+    line-height: 1.2;
   }
 
   .intro {
-    margin-top: 18px;
-    font-size: 16px;
-    line-height: 1.55;
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.6;
   }
 
   .grid {
     padding-top: 4px;
-    padding-bottom: 64px;
-    row-gap: 38px;
+    padding-bottom: 60px;
+    row-gap: 34px;
   }
 
   .media {
@@ -180,15 +176,15 @@
   }
 
   .copy {
-    padding-top: 14px;
+    padding-top: 12px;
   }
 
   .service {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .copy h2 {
-    font-size: 24px;
-    line-height: 1.16;
+    font-size: 20px;
+    line-height: 1.35;
   }
 }
