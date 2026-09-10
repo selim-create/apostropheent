@@ -65,7 +65,7 @@ export default function WorkGallery({
     >
       <div className="v2-lightbox-topbar">
         <span>{title}</span>
-        <span>{String(activeIndex + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}</span>
+        <span>{activeIndex + 1} / {items.length}</span>
         <button type="button" onClick={close} aria-label="Close gallery">×</button>
       </div>
 
@@ -96,7 +96,6 @@ export default function WorkGallery({
               style={{ '--gallery-index': index } as CSSProperties}
             >
               <img src={item.url} alt={item.alt || `${title} ${index + 1}`} loading="lazy" />
-              <span className="v2-work-gallery-index">{String(index + 1).padStart(2, '0')}</span>
               <span className="v2-work-gallery-expand" aria-hidden="true">↗</span>
             </button>
           ))}
