@@ -6,6 +6,7 @@ import './site-v2.css';
 import './work-case-study.css';
 import './work-detail-rich-media.css';
 import './work-listing.css';
+import './testimonials-client-revision.css';
 import './site-shell.css';
 import './mobile-header.css';
 import './final-mobile-scroll.css';
