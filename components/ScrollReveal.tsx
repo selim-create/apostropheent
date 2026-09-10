@@ -4,24 +4,38 @@ import { useEffect } from 'react';
 
 export default function ScrollReveal() {
   useEffect(() => {
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
-    if (!nodes.length) return;
+    const regularNodes = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]:not([data-reveal="late"])'));
+    const lateNodes = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal="late"]'));
+    if (!regularNodes.length && !lateNodes.length) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      nodes.forEach((node) => node.classList.add('is-visible'));
+      [...regularNodes, ...lateNodes].forEach((node) => node.classList.add('is-visible'));
       return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
+    const regularObserver = regularNodes.length ? new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('is-visible');
         observer.unobserve(entry.target);
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }) : null;
 
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
+    const lateObserver = lateNodes.length ? new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.18, rootMargin: '-8% 0px -34% 0px' }) : null;
+
+    regularNodes.forEach((node) => regularObserver?.observe(node));
+    lateNodes.forEach((node) => lateObserver?.observe(node));
+
+    return () => {
+      regularObserver?.disconnect();
+      lateObserver?.disconnect();
+    };
   }, []);
 
   return null;
