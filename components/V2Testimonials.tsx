@@ -1,3 +1,4 @@
+import ScrollReveal from '@/components/ScrollReveal';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import { getApiTestimonials } from '@/lib/apostrophe-api';
@@ -10,6 +11,7 @@ export default async function V2Testimonials({ lang }: { lang: SiteLanguage }) {
 
   return (
     <main className="v2-page v2-page-testimonials">
+      <ScrollReveal />
       <SiteHeader
         active="testimonials"
         lang={lang}
@@ -23,8 +25,12 @@ export default async function V2Testimonials({ lang }: { lang: SiteLanguage }) {
       </section>
 
       <section className="v2-testimonial-grid" aria-label={ui.testimonialsAria}>
-        {testimonials.map((item) => (
-          <article className="v2-testimonial-card" key={item.id}>
+        {testimonials.map((item, index) => (
+          <article
+            className={`v2-testimonial-card ${index % 2 === 0 ? 'is-left' : 'is-right'}`}
+            key={item.id}
+            data-reveal
+          >
             <blockquote>{item.quote}</blockquote>
             <footer>
               <strong>{item.name}</strong>
