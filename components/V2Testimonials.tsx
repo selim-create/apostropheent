@@ -29,7 +29,7 @@ export default async function V2Testimonials({ lang }: { lang: SiteLanguage }) {
           <article
             className={`v2-testimonial-card ${index % 2 === 0 ? 'is-left' : 'is-right'}`}
             key={item.id}
-            data-reveal
+            data-reveal="late"
           >
             <blockquote>{item.quote}</blockquote>
             <footer>
