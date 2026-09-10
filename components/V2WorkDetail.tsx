@@ -48,20 +48,7 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
   const heroOrientation = mediaOrientation(work.hero_media);
 
   return (
-    <main className={`v2-page v2-work-detail accent-${work.accent}`}>
-      <style>{`
-        .v2-work-detail .v2-detail-hero{grid-template-columns:minmax(0,1fr) minmax(360px,560px)!important;align-items:center!important}
-        .v2-work-detail .v2-detail-hero-copy{min-width:0}
-        .v2-work-detail .v2-detail-art.v2-detail-art-media{width:100%!important;min-height:0!important;padding:0!important;overflow:hidden;justify-self:end;align-self:center;display:grid;place-items:center;background:transparent}
-        .v2-work-detail .v2-detail-art.v2-detail-art-media.is-landscape{aspect-ratio:3/2;max-width:560px!important}
-        .v2-work-detail .v2-detail-art.v2-detail-art-media.is-portrait{aspect-ratio:2/3;max-width:420px!important}
-        .v2-work-detail .v2-detail-art.v2-detail-art-media.is-square{aspect-ratio:1;max-width:500px!important}
-        .v2-work-detail .v2-detail-art.v2-detail-art-media img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
-        .v2-work-detail .v2-case-study-body,.v2-work-detail .v2-rich-copy{min-width:0;max-width:100%}
-        .v2-work-detail .v2-rich-copy img,.v2-work-detail .v2-rich-copy video,.v2-work-detail .v2-rich-copy iframe{display:block;max-width:100%!important;height:auto!important}
-        .v2-work-detail .v2-rich-copy figure,.v2-work-detail .v2-rich-copy .wp-block-image,.v2-work-detail .v2-rich-copy .alignwide,.v2-work-detail .v2-rich-copy .alignfull{width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;box-sizing:border-box}
-        @media(max-width:980px){.v2-work-detail .v2-detail-hero{grid-template-columns:1fr!important}.v2-work-detail .v2-detail-art.v2-detail-art-media{justify-self:center!important}}
-      `}</style>
+    <main className="v2-page v2-work-detail">
       <ScrollReveal />
       <SiteHeader active="work" lang={lang} enHref={`/work/${work.slug}`} frHref={`/fr/projets/${work.slug}`} />
 
@@ -70,7 +57,6 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
           <Link href={basePath} className="v2-back">{ui.allWork}</Link>
           <p className="v2-eyebrow">{localizeService(work.service, lang)}</p>
           <h1>{work.title}</h1>
-          {work.year ? <p className="v2-detail-year">{work.year}</p> : null}
         </div>
         {work.hero_media ? (
           <div className={`v2-detail-art v2-detail-art-media is-${heroOrientation}`}>
@@ -84,11 +70,8 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
       <section className={`v2-case-study${caseStudy.headings.length ? ' has-toc' : ''}`} data-reveal>
         {caseStudy.headings.length ? (
           <nav className="v2-case-study-toc" aria-label={lang === 'fr' ? 'Sections du projet' : 'Project sections'}>
-            {caseStudy.headings.map((heading, index) => (
-              <a href={`#${heading.id}`} key={heading.id}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <span dangerouslySetInnerHTML={{ __html: heading.labelHtml }} />
-              </a>
+            {caseStudy.headings.map((heading) => (
+              <a href={`#${heading.id}`} key={heading.id} dangerouslySetInnerHTML={{ __html: heading.labelHtml }} />
             ))}
           </nav>
         ) : null}
