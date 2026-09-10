@@ -56,6 +56,10 @@
   align-items: end !important;
 }
 
+.v2-page-testimonials .v2-testimonial-card.is-right {
+  grid-template-columns: 220px minmax(0, 1fr) !important;
+}
+
 .v2-page-testimonials .v2-testimonial-card::before {
   content: '“';
   position: absolute;
@@ -161,7 +165,8 @@
   }
 
   .v2-page-testimonials .v2-testimonial-card,
-  .v2-page-testimonials .v2-testimonial-card.is-featured {
+  .v2-page-testimonials .v2-testimonial-card.is-featured,
+  .v2-page-testimonials .v2-testimonial-card.is-right {
     grid-template-columns: 1fr !important;
     gap: 24px !important;
     padding: 48px 0 46px !important;
