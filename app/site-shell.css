@@ -29,13 +29,24 @@
   box-shadow: none !important;
 }
 
-#header.apostrophe-shared-header.apostrophe-home-header.is-scrolled,
+/* Keep the homepage sticky header neutral, matching the legacy site instead of the added cream tint. */
+#header.apostrophe-shared-header.apostrophe-home-header.is-scrolled {
+  background: #fff !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+#header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body {
+  background: #fff !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
 #header.apostrophe-shared-header.apostrophe-inner-header {
   background: #fffaf2 !important;
   border-bottom: 1px solid rgba(17, 17, 17, .14) !important;
 }
 
-#header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body,
 #header.apostrophe-shared-header.apostrophe-inner-header .header-body {
   background: #fffaf2 !important;
   border-bottom: 1px solid rgba(17, 17, 17, .08) !important;
@@ -75,6 +86,18 @@
 
 #header.apostrophe-shared-header.apostrophe-lang-fr .header-logo img {
   max-width: 190px;
+}
+
+/* Keep each legacy service colour marker attached to its heading instead of the column edge. */
+#services [class^="services-head-"] {
+  position: relative;
+  margin-left: 0 !important;
+  padding-left: 24px;
+}
+
+#services [class^="services-head-"]::before {
+  left: 0 !important;
+  top: 0;
 }
 
 /* WordPress rich-text output must behave like the original legacy <p class="metin"> markup. */
@@ -157,5 +180,13 @@
 
   #header.apostrophe-shared-header #mainNav {
     flex-wrap: wrap;
+  }
+
+  /* mobile-header.css is loaded after this file; the extra html selector keeps the scrolled homepage white. */
+  html #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled,
+  html #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body {
+    background: #fff !important;
+    border-bottom-color: transparent !important;
+    box-shadow: none !important;
   }
 }
