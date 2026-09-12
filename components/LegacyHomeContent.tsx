@@ -91,6 +91,7 @@ export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage
   const testimonialsHeading = lang === 'fr' ? 'TÉMOIGNAGES' : 'TESTIMONIALS';
   const workCta = lang === 'fr' ? 'Voir tous les projets' : 'View all work';
   const testimonialsCta = lang === 'fr' ? 'Voir tous les témoignages' : 'Read all testimonials';
+  const testimonialReadMore = lang === 'fr' ? 'Lire la suite' : 'Read more';
   const workPreview = works.slice(0, 3);
   const testimonialPreview = testimonials.slice(0, 2);
 
@@ -206,7 +207,10 @@ export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage
                   data-appear-animation-delay={String(120 + index * 120)}
                   key={item.id}
                 >
-                  <blockquote>“{excerpt(item.quote)}”</blockquote>
+                  <Link className="home-testimonial-quote-link" href={`${testimonialsPath}#testimonial-${item.id}`}>
+                    <blockquote>“{excerpt(item.quote)}”</blockquote>
+                    <span className="home-testimonial-read-more">{testimonialReadMore} →</span>
+                  </Link>
                   <footer>
                     <strong>{item.name}</strong>
                     {item.role ? <span>{item.role}</span> : null}
