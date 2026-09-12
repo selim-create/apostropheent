@@ -1,0 +1,268 @@
+.home-preview {
+  padding: 88px 0;
+}
+
+.home-work-preview {
+  background: #FCFAF7;
+}
+
+.home-testimonials-preview {
+  background: #fff;
+}
+
+.home-preview .container {
+  max-width: 1140px;
+}
+
+.home-preview-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 34px;
+}
+
+.home-preview-head h2 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+
+.home-preview-head a {
+  color: #CE6B79;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.home-preview-head a:hover {
+  color: #111;
+  text-decoration: none;
+}
+
+.home-work-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.home-work-card,
+.home-work-card:hover {
+  display: block;
+  color: #111;
+  text-decoration: none;
+}
+
+.home-work-media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #f1ece5;
+}
+
+.home-work-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s ease, opacity .35s ease;
+}
+
+.home-work-card:hover .home-work-media img {
+  transform: scale(1.015);
+  opacity: .97;
+}
+
+.home-work-card.is-media-feature .home-work-media {
+  padding: 34px 26px 24px;
+  background: #efe9e1;
+}
+
+.home-work-card.is-media-feature .home-work-media img {
+  object-fit: contain;
+  background: #fff;
+  box-shadow: 0 14px 30px rgba(17,17,17,.08);
+}
+
+.home-work-publisher {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  z-index: 2;
+  color: rgba(17,17,17,.62);
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.home-work-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #f1ece5;
+}
+
+.home-work-copy {
+  padding-top: 13px;
+}
+
+.home-work-copy p {
+  margin: 0 0 6px;
+  color: #CE6B79;
+  font-size: 9px;
+  line-height: 1.4;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.home-work-copy h3 {
+  margin: 0;
+  color: #111;
+  font-size: 18px;
+  line-height: 1.34;
+  font-weight: 400;
+}
+
+.home-testimonial-list {
+  border-bottom: 1px solid rgba(17,17,17,.12);
+}
+
+.home-testimonial-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 42px;
+  align-items: end;
+  padding: 34px 0 32px;
+  border-top: 1px solid rgba(17,17,17,.12);
+  overflow: hidden;
+}
+
+.home-testimonial-row::before {
+  content: '“';
+  position: absolute;
+  top: 4px;
+  right: 18px;
+  color: rgba(206,107,121,.05);
+  font: 400 120px/.8 Georgia, 'Times New Roman', serif;
+  pointer-events: none;
+}
+
+.home-testimonial-row.is-alt {
+  grid-template-columns: 210px minmax(0, 1fr);
+}
+
+.home-testimonial-row.is-alt::before {
+  right: auto;
+  left: 18px;
+}
+
+.home-testimonial-row blockquote {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: 760px;
+  color: #111;
+  font-size: 15px;
+  line-height: 1.62;
+  font-weight: 300;
+}
+
+.home-testimonial-row.is-alt blockquote {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.home-testimonial-row footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.home-testimonial-row.is-alt footer {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.home-testimonial-row footer strong {
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.home-testimonial-row footer span {
+  color: rgba(17,17,17,.62);
+  font-size: 10px;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+@media (max-width: 991px) {
+  .home-preview {
+    padding: 68px 0;
+  }
+
+  .home-work-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .home-work-media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .home-testimonial-row,
+  .home-testimonial-row.is-alt {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .home-testimonial-row.is-alt blockquote,
+  .home-testimonial-row.is-alt footer {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 680px) {
+  .home-preview {
+    padding: 56px 0;
+  }
+
+  .home-preview-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+
+  .home-preview-head h2 {
+    font-size: 26px;
+  }
+
+  .home-work-card.is-media-feature .home-work-media {
+    padding: 30px 18px 18px;
+  }
+
+  .home-work-copy h3 {
+    font-size: 17px;
+  }
+
+  .home-testimonial-row {
+    padding: 28px 0 26px;
+  }
+
+  .home-testimonial-row blockquote {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
