@@ -1,6 +1,9 @@
+import Link from 'next/link';
 import Script from 'next/script';
-import { getApiSite } from '@/lib/apostrophe-api';
+import { getApiSite, getApiTestimonials, getApiWork } from '@/lib/apostrophe-api';
 import { legacyContent, type LegacyLanguage } from '@/lib/legacy-content';
+import { localizeService } from '@/lib/site-v2-i18n';
+import { getWorkPresentation } from '@/lib/work-presentation';
 
 const serviceAssetMap: Record<string, string> = {
   'strategic-communications': '/assets/img/services/strategic-communications.gif',
@@ -38,9 +41,21 @@ function renderLegacyCopy(html: string, className = 'metin') {
   ));
 }
 
+function excerpt(value: string, maxLength = 320): string {
+  const clean = value.replace(/\s+/g, ' ').trim();
+  if (clean.length <= maxLength) return clean;
+  const shortened = clean.slice(0, maxLength);
+  const boundary = shortened.lastIndexOf(' ');
+  return `${shortened.slice(0, boundary > 220 ? boundary : maxLength).trim()}…`;
+}
+
 export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage }) {
   const c = legacyContent[lang];
-  const api = await getApiSite(lang).catch(() => null);
+  const [api, works, testimonials] = await Promise.all([
+    getApiSite(lang).catch(() => null),
+    getApiWork(lang).catch(() => []),
+    getApiTestimonials(lang).catch(() => []),
+  ]);
   const home = api?.home;
 
   const heroTitle = home?.hero_title || c.heroTitle;
@@ -69,6 +84,15 @@ export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage
   const linkedin = api?.contact.linkedin || 'https://www.linkedin.com/company/apostrophe-entertainment';
   const heroDesktop = home?.hero_desktop?.url || '/assets/img/slider/apostrophe-entertainment-slider-1.jpg';
   const heroMobile = home?.hero_mobile?.url || '/assets/img/slider/apostrophe-entertainment-slider-mobile-1.jpg';
+
+  const workPath = lang === 'fr' ? '/fr/projets' : '/work';
+  const testimonialsPath = lang === 'fr' ? '/fr/temoignages' : '/testimonials';
+  const workHeading = lang === 'fr' ? 'PROJETS' : 'WORK';
+  const testimonialsHeading = lang === 'fr' ? 'TÉMOIGNAGES' : 'TESTIMONIALS';
+  const workCta = lang === 'fr' ? 'Voir tous les projets' : 'View all work';
+  const testimonialsCta = lang === 'fr' ? 'Voir tous les témoignages' : 'Read all testimonials';
+  const workPreview = works.slice(0, 3);
+  const testimonialPreview = testimonials.slice(0, 2);
 
   return (
     <>
@@ -131,6 +155,69 @@ export default async function LegacyHomeContent({ lang }: { lang: LegacyLanguage
           </div></div></div>
         </div>
       </section>
+
+      {workPreview.length ? (
+        <section id="home-work" className="home-preview home-work-preview appear-animation" data-appear-animation="fadeIn">
+          <div className="container">
+            <div className="home-preview-head appear-animation" data-appear-animation="fadeInUpShorter">
+              <h2>{workHeading}</h2>
+              <Link href={workPath}>{workCta} <span>→</span></Link>
+            </div>
+            <div className="home-work-grid">
+              {workPreview.map((work, index) => {
+                const presentation = getWorkPresentation(work);
+                const media = presentation.cover;
+                return (
+                  <Link
+                    key={work.id}
+                    href={`${workPath}/${work.slug}`}
+                    className={`home-work-card appear-animation${presentation.isMediaFeature ? ' is-media-feature' : ''}`}
+                    data-appear-animation="fadeInUpShorter"
+                    data-appear-animation-delay={String(100 + index * 120)}
+                  >
+                    <div className="home-work-media">
+                      {presentation.isMediaFeature && presentation.publisherLabel ? <span className="home-work-publisher">{presentation.publisherLabel}</span> : null}
+                      {media ? <img src={media.url} alt={media.alt || work.title} loading="lazy" /> : <span className="home-work-placeholder" />}
+                    </div>
+                    <div className="home-work-copy">
+                      <p>{localizeService(work.service, lang)}</p>
+                      <h3>{work.title}</h3>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {testimonialPreview.length ? (
+        <section id="home-testimonials" className="home-preview home-testimonials-preview appear-animation" data-appear-animation="fadeIn">
+          <div className="container">
+            <div className="home-preview-head appear-animation" data-appear-animation="fadeInUpShorter">
+              <h2>{testimonialsHeading}</h2>
+              <Link href={testimonialsPath}>{testimonialsCta} <span>→</span></Link>
+            </div>
+            <div className="home-testimonial-list">
+              {testimonialPreview.map((item, index) => (
+                <article
+                  className={`home-testimonial-row appear-animation${index % 2 ? ' is-alt' : ''}`}
+                  data-appear-animation={index % 2 ? 'fadeInRightShorter' : 'fadeInLeftShorter'}
+                  data-appear-animation-delay={String(120 + index * 120)}
+                  key={item.id}
+                >
+                  <blockquote>“{excerpt(item.quote)}”</blockquote>
+                  <footer>
+                    <strong>{item.name}</strong>
+                    {item.role ? <span>{item.role}</span> : null}
+                    {item.company ? <span>{item.company}</span> : null}
+                  </footer>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section id="contact" className="border-0 m-0 appear-animation" data-appear-animation="fadeIn">
         <div className="container my-3"><div className="row mb-5"><div className="col text-center appear-animation" data-appear-animation="fadeInUpShorter" data-appear-animation-delay="200"><h2 className="font-weight-semi-bold mb-2">{contactHeading}</h2></div></div></div>
