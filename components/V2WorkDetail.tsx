@@ -9,6 +9,7 @@ import { getApiWorkItem } from '@/lib/apostrophe-api';
 import type { MediaAsset } from '@/lib/apostrophe-api';
 import type { SiteLanguage } from '@/lib/site-v2-content';
 import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
+import { getMediaFeaturePublisher } from '@/lib/work-presentation';
 
 function mediaOrientation(media: MediaAsset | null): 'landscape' | 'portrait' | 'square' {
   if (!media?.width || !media?.height) return 'landscape';
@@ -46,20 +47,26 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
   const videoLabel = lang === 'fr' ? 'VIDÉOS' : 'VIDEOS';
   const caseStudy = prepareCaseStudy(work.content || '');
   const heroOrientation = mediaOrientation(work.hero_media);
+  const publisher = getMediaFeaturePublisher(work);
+  const serviceLabel = localizeService(work.service, lang);
+  const featureLabel = lang === 'fr' ? 'PUBLICATION' : 'FEATURED IN';
 
   return (
-    <main className="v2-page v2-work-detail">
+    <main className={`v2-page v2-work-detail${publisher ? ' is-media-feature' : ''}`}>
       <ScrollReveal />
       <SiteHeader active="work" lang={lang} enHref={`/work/${work.slug}`} frHref={`/fr/projets/${work.slug}`} />
 
       <section className="v2-detail-hero">
         <div className="v2-detail-hero-copy">
           <Link href={basePath} className="v2-back">{ui.allWork}</Link>
-          <p className="v2-eyebrow">{localizeService(work.service, lang)}</p>
+          <p className="v2-eyebrow">{serviceLabel}</p>
           <h1>{work.title}</h1>
         </div>
         {work.hero_media ? (
-          <div className={`v2-detail-art v2-detail-art-media is-${heroOrientation}`}>
+          <div
+            className={`v2-detail-art v2-detail-art-media is-${heroOrientation}`}
+            data-publisher={publisher?.label || undefined}
+          >
             <img src={work.hero_media.url} alt={work.hero_media.alt || work.title} />
           </div>
         ) : (
@@ -67,8 +74,18 @@ export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage;
         )}
       </section>
 
-      <section className={`v2-case-study${caseStudy.headings.length ? ' has-toc' : ''}`} data-reveal>
-        {caseStudy.headings.length ? (
+      <section
+        className={`v2-case-study${publisher ? ' media-feature-case' : caseStudy.headings.length ? ' has-toc' : ''}`}
+        data-reveal
+      >
+        {publisher ? (
+          <aside className="v2-media-feature-meta" aria-label={featureLabel}>
+            <span className="v2-media-feature-meta-label">{featureLabel}</span>
+            <strong>{publisher.label}</strong>
+            <span>{serviceLabel}</span>
+            {work.year ? <span>{work.year}</span> : null}
+          </aside>
+        ) : caseStudy.headings.length ? (
           <nav className="v2-case-study-toc" aria-label={lang === 'fr' ? 'Sections du projet' : 'Project sections'}>
             {caseStudy.headings.map((heading) => (
               <a href={`#${heading.id}`} key={heading.id} dangerouslySetInnerHTML={{ __html: heading.labelHtml }} />
