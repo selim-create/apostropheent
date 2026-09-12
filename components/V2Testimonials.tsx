@@ -27,6 +27,7 @@ export default async function V2Testimonials({ lang }: { lang: SiteLanguage }) {
       <section className="v2-testimonial-grid" aria-label={ui.testimonialsAria}>
         {testimonials.map((item, index) => (
           <article
+            id={`testimonial-${item.id}`}
             className={`v2-testimonial-card ${index % 2 === 0 ? 'is-left' : 'is-right'}`}
             key={item.id}
             data-reveal="late"
