@@ -46,6 +46,7 @@ export default function SiteHeader({
   const navClass = (key: SiteHeaderActive) => `nav-link${active === key ? ' active' : ''}`;
   const mobileNavClass = (key: SiteHeaderActive) => `apostrophe-mobile-nav-link${active === key ? ' active' : ''}`;
   const sectionHref = (section: string) => homePage ? `#${section}` : `${homePath}?section=${section}`;
+  const editorialHeader = !homePage && (active === 'work' || active === 'testimonials');
 
   const navLabels = {
     home: c.nav.home,
@@ -81,7 +82,7 @@ export default function SiteHeader({
   return (
     <header
       id="header"
-      className={`header-transparent header-effect-shrink apostrophe-shared-header apostrophe-lang-${lang}${homePage ? ' apostrophe-home-header' : ' apostrophe-inner-header'}${mobileOpen ? ' mobile-menu-open' : ''}`}
+      className={`header-transparent header-effect-shrink apostrophe-shared-header apostrophe-lang-${lang}${homePage ? ' apostrophe-home-header' : ' apostrophe-inner-header'}${editorialHeader ? ' apostrophe-editorial-header' : ''}${mobileOpen ? ' mobile-menu-open' : ''}`}
       data-home-header={homePage ? 'true' : 'false'}
     >
       <div className="header-body border-top-0 box-shadow-none">

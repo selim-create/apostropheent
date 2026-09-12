@@ -53,6 +53,20 @@
   box-shadow: 0 7px 22px rgba(17, 17, 17, .045) !important;
 }
 
+#header.apostrophe-shared-header.apostrophe-editorial-header,
+#header.apostrophe-shared-header.apostrophe-editorial-header .header-body {
+  background: #fff !important;
+}
+
+#header.apostrophe-shared-header.apostrophe-editorial-header {
+  border-bottom: 1px solid rgba(17, 17, 17, .10) !important;
+}
+
+#header.apostrophe-shared-header.apostrophe-editorial-header .header-body {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
 #header.apostrophe-shared-header .header-container.container {
   width: min(1480px, calc(100% - 48px));
   max-width: 1480px;
@@ -184,9 +198,19 @@
 
   /* mobile-header.css is loaded after this file; the extra html selector keeps the scrolled homepage white. */
   html #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled,
-  html #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body {
+  html #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled .header-body,
+  html #header.apostrophe-shared-header.apostrophe-editorial-header,
+  html #header.apostrophe-shared-header.apostrophe-editorial-header .header-body {
     background: #fff !important;
+  }
+
+  html #header.apostrophe-shared-header.apostrophe-home-header.is-scrolled {
     border-bottom-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  html #header.apostrophe-shared-header.apostrophe-editorial-header {
+    border-bottom-color: rgba(17,17,17,.10) !important;
     box-shadow: none !important;
   }
 }

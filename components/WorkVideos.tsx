@@ -41,7 +41,7 @@ export default function WorkVideos({ videos, legacyUrl, workTitle, label }: { vi
         const orientationClass=video.orientation==='portrait'?styles.portrait:video.orientation==='square'?styles.square:styles.landscape;
         const title=video.title || `${workTitle} video ${index+1}`;
         return <article className={`${styles.item} ${orientationClass}${video.featured?` ${styles.featured}`:''}`} key={`${video.id}-${video.url}`}>
-          <div className={styles.media}>{embed ? <iframe src={embed} title={title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <WorkVideo src={video.url} title={title} />}</div>
+          <div className={styles.media}>{embed ? <iframe src={embed} title={title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /> : <WorkVideo src={video.url} title={title} poster={video.poster?.url} />}</div>
           {video.title ? <p className={styles.caption}>{video.title}</p> : null}
         </article>;
       })}
