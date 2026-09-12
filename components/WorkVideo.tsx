@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-export default function WorkVideo({ src, title }: { src: string; title: string }) {
+export default function WorkVideo({ src, title, poster }: { src: string; title: string; poster?: string | null }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -25,6 +25,7 @@ export default function WorkVideo({ src, title }: { src: string; title: string }
         controls
         preload="metadata"
         playsInline
+        poster={poster || undefined}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
         onEnded={() => setPlaying(false)}
