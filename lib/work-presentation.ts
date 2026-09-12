@@ -1,28 +1,21 @@
-import type { ApiWorkItem } from '@/lib/apostrophe-api';
+import type { ApiWorkItem, MediaAsset } from '@/lib/apostrophe-api';
 
-export type MediaFeaturePublisher = {
-  key: 'deadline' | 'variety' | 'episode' | 'formatbiz';
-  label: string;
+export type WorkPresentation = {
+  isMediaFeature: boolean;
+  publisherLabel: string;
+  cover: MediaAsset | null;
 };
 
-const mediaPublishers: Array<MediaFeaturePublisher & { hosts: string[] }> = [
-  { key: 'deadline', label: 'DEADLINE', hosts: ['deadline.com'] },
-  { key: 'variety', label: 'VARIETY', hosts: ['variety.com'] },
-  { key: 'episode', label: 'EPISODE', hosts: ['episodedergi.com'] },
-  { key: 'formatbiz', label: 'FORMATBIZ', hosts: ['formatbiz.it', 'formatbiz.com'] },
-];
+export function getWorkPresentation(
+  work: Pick<ApiWorkItem, 'presentation_type' | 'media_publisher' | 'media_cover' | 'hero_media' | 'thumbnail'>,
+): WorkPresentation {
+  const isMediaFeature = work.presentation_type === 'media_feature';
 
-export function getMediaFeaturePublisher(work: Pick<ApiWorkItem, 'external_link'>): MediaFeaturePublisher | null {
-  const rawUrl = work.external_link?.url?.trim();
-  if (!rawUrl) return null;
-
-  try {
-    const host = new URL(rawUrl).hostname.replace(/^www\./, '').toLowerCase();
-    const publisher = mediaPublishers.find((item) => item.hosts.some((candidate) => host === candidate || host.endsWith(`.${candidate}`)));
-    return publisher ? { key: publisher.key, label: publisher.label } : null;
-  } catch {
-    const normalized = rawUrl.toLowerCase();
-    const publisher = mediaPublishers.find((item) => item.hosts.some((candidate) => normalized.includes(candidate)));
-    return publisher ? { key: publisher.key, label: publisher.label } : null;
-  }
+  return {
+    isMediaFeature,
+    publisherLabel: isMediaFeature ? (work.media_publisher?.trim() || 'MEDIA FEATURE') : '',
+    cover: isMediaFeature
+      ? (work.media_cover || work.hero_media || work.thumbnail)
+      : (work.hero_media || work.thumbnail),
+  };
 }
