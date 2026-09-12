@@ -4,7 +4,7 @@ import SiteHeader from '@/components/SiteHeader';
 import { getApiWork } from '@/lib/apostrophe-api';
 import type { SiteLanguage } from '@/lib/site-v2-content';
 import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
-import { getMediaFeaturePublisher } from '@/lib/work-presentation';
+import { getWorkPresentation } from '@/lib/work-presentation';
 import styles from './V2WorkListing.module.css';
 
 export default async function V2WorkListing({ lang }: { lang: SiteLanguage }) {
@@ -23,20 +23,20 @@ export default async function V2WorkListing({ lang }: { lang: SiteLanguage }) {
 
       <section className={styles.grid} aria-label={ui.workTitle}>
         {works.map((work) => {
-          const media = work.hero_media || work.thumbnail;
-          const publisher = getMediaFeaturePublisher(work);
+          const presentation = getWorkPresentation(work);
+          const media = presentation.cover;
 
           return (
             <Link
               key={work.id}
               href={`${basePath}/${work.slug}`}
-              className={`${styles.card}${publisher ? ` ${styles.mediaFeatureCard}` : ''}`}
+              className={`${styles.card}${presentation.isMediaFeature ? ` ${styles.mediaFeatureCard}` : ''}`}
             >
-              <div className={`${styles.media}${publisher ? ` ${styles.mediaFeatureMedia}` : ''}`}>
-                {publisher ? <span className={styles.publisher}>{publisher.label}</span> : null}
+              <div className={`${styles.media}${presentation.isMediaFeature ? ` ${styles.mediaFeatureMedia}` : ''}`}>
+                {presentation.isMediaFeature ? <span className={styles.publisher}>{presentation.publisherLabel}</span> : null}
                 {media ? (
                   <img
-                    className={`${styles.image}${publisher ? ` ${styles.mediaFeatureImage}` : ''}`}
+                    className={`${styles.image}${presentation.isMediaFeature ? ` ${styles.mediaFeatureImage}` : ''}`}
                     src={media.url}
                     alt={media.alt || work.title}
                     loading="lazy"

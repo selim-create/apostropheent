@@ -80,6 +80,9 @@ export type ApiWorkItem = {
   service: string;
   year: number | null;
   accent: 'pink' | 'orange' | 'blue' | 'cream' | 'red';
+  presentation_type: 'standard' | 'media_feature';
+  media_publisher: string;
+  media_cover: MediaAsset | null;
   summary: string;
   content: string;
   order: number;
