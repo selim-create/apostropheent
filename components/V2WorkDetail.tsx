@@ -5,8 +5,8 @@ import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
 import WorkGallery from '@/components/WorkGallery';
 import WorkVideos from '@/components/WorkVideos';
-import { getApiWorkItem } from '@/lib/apostrophe-api';
-import type { MediaAsset } from '@/lib/apostrophe-api';
+import { getApiPreview, getApiWorkItem } from '@/lib/apostrophe-api';
+import type { ApiPreviewParams, ApiWorkItem, MediaAsset } from '@/lib/apostrophe-api';
 import type { SiteLanguage } from '@/lib/site-v2-content';
 import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
 import { getWorkPresentation } from '@/lib/work-presentation';
@@ -37,9 +37,17 @@ function prepareCaseStudy(html: string): { html: string; headings: Array<{ id: s
   return { html: prepared, headings };
 }
 
-export default async function V2WorkDetail({ lang, slug }: { lang: SiteLanguage; slug: string }) {
-  let work;
-  try { work = await getApiWorkItem(slug, lang); } catch { notFound(); }
+export default async function V2WorkDetail({ lang, slug, preview }: { lang: SiteLanguage; slug: string; preview?: ApiPreviewParams | null }) {
+  let work: ApiWorkItem;
+  try {
+    if (preview) {
+      const data = await getApiPreview<ApiWorkItem>(preview);
+      if (data.post_type !== 'ae_work') notFound();
+      work = data.item;
+    } else {
+      work = await getApiWorkItem(slug, lang);
+    }
+  } catch { notFound(); }
 
   const ui = v2Ui[lang];
   const basePath = workBasePath(lang);
