@@ -96,6 +96,18 @@ export type ApiWorkItem = {
   rank_math: { title: string; description: string; focus_keyword: string };
 };
 
+export type ApiPreviewParams = {
+  postId: string;
+  expires: string;
+  token: string;
+};
+
+export type ApiPreviewEnvelope<T> = {
+  post_type: string;
+  status: string;
+  item: T;
+};
+
 export type ApiTestimonial = {
   id: number;
   language: ApiLanguage;
@@ -137,4 +149,23 @@ export async function getApiWorkItem(slug: string, lang: ApiLanguage): Promise<A
 export async function getApiTestimonials(lang: ApiLanguage): Promise<ApiTestimonial[]> {
   const data = await apiFetch<{ language: string; items: ApiTestimonial[] }>(`/testimonials?lang=${lang}`);
   return data.items;
+}
+
+
+export async function getApiPreview<T>(preview: ApiPreviewParams): Promise<ApiPreviewEnvelope<T>> {
+  const query = new URLSearchParams({
+    expires: preview.expires,
+    token: preview.token,
+  });
+
+  const response = await fetch(
+    `${API_BASE}/wp-json/apostrophe/v1/preview/${encodeURIComponent(preview.postId)}?${query.toString()}`,
+    {
+      cache: 'no-store',
+      headers: { Accept: 'application/json' },
+    },
+  );
+
+  if (!response.ok) throw new Error(`Apostrophe preview API ${response.status}`);
+  return response.json() as Promise<ApiPreviewEnvelope<T>>;
 }
