@@ -1,13 +1,25 @@
 import ScrollReveal from '@/components/ScrollReveal';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
-import { getApiTestimonials } from '@/lib/apostrophe-api';
+import { getApiPreview, getApiTestimonials } from '@/lib/apostrophe-api';
+import type { ApiPreviewParams, ApiTestimonial } from '@/lib/apostrophe-api';
 import type { SiteLanguage } from '@/lib/site-v2-content';
 import { v2Ui } from '@/lib/site-v2-i18n';
 
-export default async function V2Testimonials({ lang }: { lang: SiteLanguage }) {
+export default async function V2Testimonials({ lang, preview }: { lang: SiteLanguage; preview?: ApiPreviewParams | null }) {
   const ui = v2Ui[lang];
-  const testimonials = await getApiTestimonials(lang);
+  let testimonials = await getApiTestimonials(lang);
+
+  if (preview) {
+    try {
+      const data = await getApiPreview<ApiTestimonial>(preview);
+      if (data.post_type === 'ae_testimonial') {
+        testimonials = [data.item, ...testimonials.filter((item) => item.id !== data.item.id)];
+      }
+    } catch {
+      // Invalid/expired preview tokens should not break the public listing.
+    }
+  }
 
   return (
     <main className="v2-page v2-page-testimonials">
