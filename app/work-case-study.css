@@ -31,6 +31,21 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+.v2-case-study.has-feature-meta {
+  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
+}
+
+.v2-case-study-sidebar {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.v2-case-study-sidebar .v2-case-study-toc {
+  position: static;
+}
+
 .v2-case-study-toc {
   position: sticky;
   top: 124px;
@@ -400,6 +415,14 @@
     gap: 30px;
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .v2-case-study.has-feature-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-case-study-sidebar {
+    gap: 20px;
   }
 
   .v2-case-study-toc {

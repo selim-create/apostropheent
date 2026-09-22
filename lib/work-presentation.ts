@@ -13,7 +13,7 @@ export function getWorkPresentation(
 
   return {
     isMediaFeature,
-    publisherLabel: isMediaFeature ? (work.media_publisher?.trim() || 'MEDIA FEATURE') : '',
+    publisherLabel: work.media_publisher?.trim() || (isMediaFeature ? 'MEDIA FEATURE' : ''),
     cover: isMediaFeature
       ? (work.media_cover || work.hero_media || work.thumbnail)
       : (work.hero_media || work.thumbnail),
