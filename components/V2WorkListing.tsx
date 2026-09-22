@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import SiteFooter from '@/components/SiteFooter';
 import SiteHeader from '@/components/SiteHeader';
-import { getApiWork } from '@/lib/apostrophe-api';
+import { getApiSite, getApiWork } from '@/lib/apostrophe-api';
 import type { SiteLanguage } from '@/lib/site-v2-content';
 import { localizeService, v2Ui, workBasePath } from '@/lib/site-v2-i18n';
 import { getWorkPresentation } from '@/lib/work-presentation';
@@ -10,18 +10,21 @@ import styles from './V2WorkListing.module.css';
 export default async function V2WorkListing({ lang }: { lang: SiteLanguage }) {
   const ui = v2Ui[lang];
   const basePath = workBasePath(lang);
-  const works = await getApiWork(lang);
+  const [works, site] = await Promise.all([getApiWork(lang), getApiSite(lang)]);
+  const listingContent = site.listing_content?.work;
+  const pageTitle = listingContent?.title?.trim() || ui.workTitle;
+  const pageIntro = listingContent?.intro?.trim() || ui.workIntro;
 
   return (
     <main className={styles.page}>
       <SiteHeader active="work" lang={lang} enHref="/work" frHref="/fr/projets" />
 
       <section className={styles.hero}>
-        <h1 className={styles.title}>{ui.workTitle}</h1>
-        <p className={styles.intro}>{ui.workIntro}</p>
+        <h1 className={styles.title}>{pageTitle}</h1>
+        <p className={styles.intro}>{pageIntro}</p>
       </section>
 
-      <section className={styles.grid} aria-label={ui.workTitle}>
+      <section className={styles.grid} aria-label={pageTitle}>
         {works.map((work) => {
           const presentation = getWorkPresentation(work);
           const media = presentation.cover;
