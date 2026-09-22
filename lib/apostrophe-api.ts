@@ -47,6 +47,10 @@ export type ApiSite = {
   home: ApiHome | null;
   services: ApiService[];
   fields: ApiField[];
+  listing_content?: {
+    work: { title: string; intro: string };
+    testimonials: { title: string; intro: string };
+  };
   listing_seo?: {
     work: { title: string; description: string };
     testimonials: { title: string; description: string };
