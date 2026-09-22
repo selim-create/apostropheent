@@ -36,6 +36,8 @@
 }
 
 .v2-case-study-sidebar {
+  position: sticky;
+  top: 124px;
   align-self: start;
   display: flex;
   flex-direction: column;
@@ -422,6 +424,8 @@
   }
 
   .v2-case-study-sidebar {
+    position: static;
+    top: auto;
     gap: 20px;
   }
 
