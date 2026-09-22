@@ -59,6 +59,8 @@ export default async function V2WorkDetail({ lang, slug, preview }: { lang: Site
   const heroOrientation = mediaOrientation(heroMedia);
   const serviceLabel = localizeService(work.service, lang);
   const featureLabel = lang === 'fr' ? 'PUBLICATION' : 'FEATURED IN';
+  const hasPublisherMeta = Boolean(work.media_publisher?.trim());
+  const showPublisherMeta = presentation.isMediaFeature || hasPublisherMeta;
 
   return (
     <main className={`v2-page v2-work-detail${presentation.isMediaFeature ? ' is-media-feature' : ''}`}>
@@ -84,7 +86,7 @@ export default async function V2WorkDetail({ lang, slug, preview }: { lang: Site
       </section>
 
       <section
-        className={`v2-case-study${presentation.isMediaFeature ? ' media-feature-case' : caseStudy.headings.length ? ' has-toc' : ''}`}
+        className={`v2-case-study${presentation.isMediaFeature ? ' media-feature-case' : hasPublisherMeta ? ' has-feature-meta' : caseStudy.headings.length ? ' has-toc' : ''}`}
         data-reveal
       >
         {presentation.isMediaFeature ? (
@@ -93,6 +95,22 @@ export default async function V2WorkDetail({ lang, slug, preview }: { lang: Site
             <strong>{presentation.publisherLabel}</strong>
             <span>{serviceLabel}</span>
             {work.year ? <span>{work.year}</span> : null}
+          </aside>
+        ) : showPublisherMeta ? (
+          <aside className="v2-case-study-sidebar" aria-label={featureLabel}>
+            <div className="v2-media-feature-meta">
+              <span className="v2-media-feature-meta-label">{featureLabel}</span>
+              <strong>{presentation.publisherLabel}</strong>
+              <span>{serviceLabel}</span>
+              {work.year ? <span>{work.year}</span> : null}
+            </div>
+            {caseStudy.headings.length ? (
+              <nav className="v2-case-study-toc" aria-label={lang === 'fr' ? 'Sections du projet' : 'Project sections'}>
+                {caseStudy.headings.map((heading) => (
+                  <a href={`#${heading.id}`} key={heading.id} dangerouslySetInnerHTML={{ __html: heading.labelHtml }} />
+                ))}
+              </nav>
+            ) : null}
           </aside>
         ) : caseStudy.headings.length ? (
           <nav className="v2-case-study-toc" aria-label={lang === 'fr' ? 'Sections du projet' : 'Project sections'}>
