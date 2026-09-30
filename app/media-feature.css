@@ -29,6 +29,7 @@
   background: #efe9e1 !important;
   display: grid;
   place-items: center;
+  justify-self: center;
 }
 
 .v2-work-detail.is-media-feature .v2-detail-art.v2-detail-art-media::before {
@@ -128,7 +129,7 @@
   .v2-work-detail.is-media-feature .v2-detail-art.v2-detail-art-media.is-landscape,
   .v2-work-detail.is-media-feature .v2-detail-art.v2-detail-art-media.is-portrait,
   .v2-work-detail.is-media-feature .v2-detail-art.v2-detail-art-media.is-square {
-    justify-self: start !important;
+    justify-self: center !important;
     max-width: 620px !important;
   }
 
