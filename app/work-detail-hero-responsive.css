@@ -91,6 +91,20 @@
   object-position: center;
 }
 
+/* Media Feature owns its inner artwork sizing. Keep the artwork centered
+   inside the existing detail card instead of inheriting the generic 100% fill. */
+.v2-work-detail.is-media-feature .v2-detail-art.v2-detail-art-media img {
+  position: relative !important;
+  inset: auto !important;
+  width: 86% !important;
+  height: 86% !important;
+  margin-inline: auto !important;
+  justify-self: center !important;
+  align-self: center !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
 .v2-work-detail .v2-detail-art:not(.v2-detail-art-media) {
   min-height: 300px !important;
   border: 0 !important;
