@@ -64,6 +64,10 @@
   border: 0 !important;
 }
 
+.v2-work-detail.is-media-feature .v2-detail-art.v2-detail-art-media {
+  justify-self: center !important;
+}
+
 .v2-work-detail .v2-detail-art.v2-detail-art-media.is-landscape {
   aspect-ratio: 3 / 2 !important;
   max-width: 500px !important;
